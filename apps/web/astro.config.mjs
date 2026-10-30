@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url';
 const r = (p) => fileURLToPath(new URL(p, import.meta.url));
 
 export default defineConfig({
-  site: 'https://mab-app.eu.org', // custom domain → base tetap "/"
+  site: process.env.SITE_URL ?? 'https://mab-app.eu.org',
+base: process.env.BASE_PATH ?? '/',
   output: 'static', // 100% static → cocok GitHub Pages / Cloudflare Pages
   compressHTML: true,
   prefetch: { defaultStrategy: 'hover' },
