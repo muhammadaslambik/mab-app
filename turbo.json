@@ -2,7 +2,11 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["apps-registry/apps.json"],
   "tasks": {
-    "build": { "dependsOn": ["^build"], "outputs": ["dist/**", ".astro/**"] },
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["SITE_URL", "BASE_PATH"],
+      "outputs": ["dist/**", ".astro/**"]
+    },
     "dev": { "cache": false, "persistent": true },
     "typecheck": { "dependsOn": ["^typecheck"] }
   }
