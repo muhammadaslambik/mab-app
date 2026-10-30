@@ -1,14 +1,19 @@
-/** Particle dots canvas — vanilla, ±1.5 KB. Berhenti saat tab tersembunyi; statis jika reduced-motion. */
+/** Particle dots canvas — vanilla. Dibatasi 30 fps, DPR 1, dan DIJEDA saat halaman sedang di-scroll. */
 interface P { x: number; y: number; vx: number; vy: number; r: number }
 
 export function initParticles(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LINK = 110;
-  let w = 0, h = 0, pts: P[] = [], raf = 0;
+  const root = document.documentElement;
+  const LINK = 100, FRAME = 1000 / 30;
+  let w = 0, h = 0, pts: P[] = [], raf = 0, last = 0;
 
-  const draw = () => {
+  const draw = (t = 0) => {
+    if (!reduce) raf = requestAnimationFrame(draw);
+    // Lewati frame saat scroll aktif atau jika belum waktunya (30 fps)
+    if (!reduce && (root.classList.contains('is-scrolling') || t - last < FRAME)) return;
+    last = t;
     ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < pts.length; i++) {
       const p = pts[i]!;
@@ -27,18 +32,15 @@ export function initParticles(canvas: HTMLCanvasElement) {
         }
       }
     }
-    if (!reduce) raf = requestAnimationFrame(draw);
   };
 
   const resize = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 1.5);
     w = innerWidth; h = innerHeight;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.min(40, Math.floor((w * h) / 30000));
+    canvas.width = w; canvas.height = h; // DPR 1: titik kecil tidak butuh resolusi tinggi
+    const n = Math.min(36, Math.floor((w * h) / 32000));
     pts = Array.from({ length: n }, () => ({
       x: Math.random() * w, y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, r: Math.random() * 1.4 + 0.4,
+      vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45, r: Math.random() * 1.4 + 0.4,
     }));
     cancelAnimationFrame(raf); draw();
   };

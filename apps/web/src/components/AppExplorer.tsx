@@ -15,7 +15,7 @@ interface Props {
 /** Tombol platform: aktif = putih solid + centang, nonaktif = transparan */
 const platformChip = (on: boolean) =>
   `inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-medium transition ${
-    on ? 'border-transparent bg-white text-ink-950' : 'border-white/15 bg-white/5 text-slate-200 hover:bg-white/10'
+    on ? 'border-transparent bg-gradient-to-r from-brand-violet to-brand-cyan text-ink-950' : 'border-white/15 bg-white/5 text-slate-200 hover:bg-white/10'
   }`;
 
 /**

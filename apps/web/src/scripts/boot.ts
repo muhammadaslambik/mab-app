@@ -15,11 +15,17 @@ function initReveal() {
 /* 2. Header: glass lebih tegas setelah scroll */
 function initHeader() {
   const header = document.getElementById('site-header');
-  if (!header) return;
-  let state = false;
+  const root = document.documentElement;
+  let state = false, timer = 0;
   const onScroll = () => {
-    const next = scrollY > 8;
-    if (next !== state) { state = next; header.dataset.scrolled = String(next); }
+    if (header) {
+      const next = scrollY > 8;
+      if (next !== state) { state = next; header.dataset.scrolled = String(next); }
+    }
+    // Tandai "sedang scroll" → animasi latar dijeda sementara
+    root.classList.add('is-scrolling');
+    clearTimeout(timer);
+    timer = window.setTimeout(() => root.classList.remove('is-scrolling'), 140);
   };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
