@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "MAB-App registry",
+  "title": "MAB-APP registry",
   "type": "object",
   "required": ["apps"],
   "properties": {

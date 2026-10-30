@@ -1,4 +1,4 @@
-# MAB-App
+# MAB-APP
 
 **Research Lab for Future Applications** — hub untuk semua aplikasi riset buatan Anda.
 Live: https://mab-app.eu.org

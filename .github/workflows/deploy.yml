@@ -1,8 +1,8 @@
-# Auto deploy MAB-App.
+# Auto deploy MAB-APP.
 #  - GitHub Pages : aktif otomatis (Settings → Pages → Source: "GitHub Actions")
 #  - Cloudflare   : opsional. Buat Repository variable DEPLOY_CLOUDFLARE=true
 #                   + secrets CLOUDFLARE_API_TOKEN & CLOUDFLARE_ACCOUNT_ID
-name: Deploy MAB-App
+name: Deploy MAB-APP
 
 on:
   push:

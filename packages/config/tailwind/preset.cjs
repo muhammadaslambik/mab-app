@@ -1,5 +1,5 @@
 /**
- * Shared Tailwind preset — satu sumber kebenaran untuk design tokens MAB-App.
+ * Shared Tailwind preset — satu sumber kebenaran untuk design tokens MAB-APP.
  * Dipakai oleh semua app/package: presets: [require('@mab/config/tailwind')]
  */
 module.exports = {

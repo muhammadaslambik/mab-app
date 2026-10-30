@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Reusable UI components & shared types for MAB-App",
+  "description": "Reusable UI components & shared types for MAB-APP",
   "exports": { ".": "./src/index.ts" },
   "scripts": { "typecheck": "tsc --noEmit" },
   "dependencies": { "lucide-react": "^0.468.0" },
