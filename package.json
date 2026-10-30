@@ -1,0 +1,17 @@
+{
+  "name": "mab-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "MAB-App — Research Lab for Future Applications (pnpm + Turborepo monorepo)",
+  "packageManager": "pnpm@9.15.0",
+  "engines": { "node": ">=20.0.0" },
+  "scripts": {
+    "dev": "turbo run dev --filter=@mab/web",
+    "build": "turbo run build",
+    "preview": "pnpm --filter @mab/web preview",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  }
+}

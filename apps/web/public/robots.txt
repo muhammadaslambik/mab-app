@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mab-app.eu.org/sitemap-index.xml

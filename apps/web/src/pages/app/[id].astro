@@ -1,0 +1,105 @@
+---
+/** Halaman detail dinamis /app/[id] — dibuat statis untuk setiap entri di apps.json */
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { AppIcon, CATEGORY_META, PlatformBadge, STATUS_META, StatusBadge } from '@mab/ui';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getApps } from '../../lib/registry';
+import { withBase } from '../../lib/url';
+import { SITE } from '../../lib/site';
+
+export function getStaticPaths() {
+  const apps = getApps();
+  return apps.map((app) => ({
+    params: { id: app.id },
+    props: { app, related: apps.filter((a) => a.category === app.category && a.id !== app.id).slice(0, 3) },
+  }));
+}
+
+const { app, related } = Astro.props;
+const meta = CATEGORY_META[app.category];
+const schemaCategory = { application: 'UtilitiesApplication', game: 'GameApplication', business: 'BusinessApplication', education: 'EducationalApplication' }[app.category];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: app.name,
+  description: app.description,
+  applicationCategory: schemaCategory,
+  operatingSystem: app.platform.join(', '),
+  url: new URL(`app/${app.id}/`, SITE.url + '/').href,
+};
+
+const notes: Record<string, string> = {
+  riset: 'This app is in the research phase. Expect fast changes, experiments and rough edges.',
+  beta: 'This app is in beta. It works, but features and data may still change.',
+  rilis: 'This app is released and ready to use.',
+};
+---
+<BaseLayout title={app.name} description={app.description} jsonLd={jsonLd}>
+  <article class="mx-auto max-w-4xl px-5 pb-24 pt-28">
+    <a href={withBase('#vault')} class="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white">
+      <ArrowLeft size={16} aria-hidden="true" /> All apps
+    </a>
+
+    <header class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center" data-reveal>
+      <span class={`grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-gradient-to-br ${meta.gradient} text-white shadow-[0_0_40px_-6px_rgba(124,92,255,0.8)]`}>
+        <AppIcon name={app.icon} size={38} />
+      </span>
+      <div>
+        <div class="flex flex-wrap items-center gap-3">
+          <StatusBadge status={app.status} />
+          <span class="text-sm text-slate-300">{meta.label}</span>
+        </div>
+        <h1 class="mt-2 text-4xl font-bold text-white sm:text-5xl">{app.name}</h1>
+      </div>
+    </header>
+
+    <p class="mt-8 text-lg leading-relaxed text-slate-200" data-reveal>{app.description}</p>
+    {app.long_description && <p class="mt-4 max-w-prose leading-relaxed text-slate-300" data-reveal>{app.long_description}</p>}
+
+    <div class="mt-8 flex flex-wrap items-center gap-3" data-reveal>
+      {app.link
+        ? <a href={app.link} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Open {app.name} <ArrowUpRight size={16} aria-hidden="true" /></a>
+        : <span class="btn btn-ghost cursor-not-allowed opacity-70" aria-disabled="true">Not public yet</span>}
+      <a href={withBase('#vault')} class="btn btn-ghost">Back to the vault</a>
+    </div>
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-2" data-reveal>
+      <section class="glass rounded-3xl p-6">
+        <h2 class="text-lg font-semibold text-white">Tech stack</h2>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {app.tech_stack.map((t) => <li class="chip !text-sm !px-3 !py-1">{t}</li>)}
+        </ul>
+        {app.tags && app.tags.length > 0 && <p class="mt-4 text-sm text-slate-400">Tags: {app.tags.join(', ')}</p>}
+      </section>
+
+      <section class="glass rounded-3xl p-6">
+        <h2 class="text-lg font-semibold text-white">Details</h2>
+        <dl class="mt-4 space-y-3 text-sm">
+          <div class="flex justify-between gap-4"><dt class="text-slate-400">Status</dt><dd class="text-white">{STATUS_META[app.status].label}</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-slate-400">Category</dt><dd class="text-white">{meta.label}</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-slate-400">Platforms</dt>
+            <dd class="flex flex-wrap justify-end gap-x-3">{app.platform.map((p) => <PlatformBadge platform={p} />)}</dd></div>
+          {app.updated && <div class="flex justify-between gap-4"><dt class="text-slate-400">Updated</dt><dd class="text-white">{app.updated}</dd></div>}
+        </dl>
+        <p class="mt-4 text-sm leading-relaxed text-slate-300">{notes[app.status]}</p>
+      </section>
+    </div>
+
+    {related.length > 0 && (
+      <section class="mt-14" data-reveal>
+        <h2 class="text-xl font-semibold text-white">More in {meta.label}</h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+          {related.map((r) => (
+            <li>
+              <a href={withBase(`app/${r.id}/`)} class="glass flex items-center gap-3 rounded-2xl p-4 transition hover:border-violet-400/40">
+                <AppIcon name={r.icon} size={20} className="text-slate-200" />
+                <span class="font-medium text-white">{r.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</BaseLayout>

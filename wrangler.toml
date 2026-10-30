@@ -1,0 +1,4 @@
+# Cloudflare Pages (gratis, tanpa kartu). Deploy manual: `pnpm build && npx wrangler pages deploy`
+name = "mab-app"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "apps/web/dist"

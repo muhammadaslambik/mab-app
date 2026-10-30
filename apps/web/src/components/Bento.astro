@@ -1,0 +1,51 @@
+---
+import { AppIcon } from '@mab/ui';
+---
+<section id="about" class="mx-auto max-w-6xl px-5 py-24">
+  <div class="max-w-2xl" data-reveal>
+    <h2 class="text-3xl font-bold text-white sm:text-4xl">A lab that is ready to scale</h2>
+    <p class="mt-3 text-slate-300">Ideas start rough here. The foundation underneath them does not have to be.</p>
+  </div>
+
+  <div class="mt-10 grid gap-4 md:grid-cols-6">
+    <article class="glass rounded-3xl p-6 md:col-span-4" data-reveal>
+      <AppIcon name="FlaskConical" size={26} className="text-brand-violet" />
+      <h3 class="mt-4 text-xl font-semibold text-white">Research first, polish later</h3>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-slate-300">
+        Every app carries an honest status, so you always know what you are looking at.
+      </p>
+      <ol class="mt-5 flex flex-wrap items-center gap-2 text-xs font-bold">
+        <li class="rounded-full bg-amber-400/10 px-3 py-1 text-amber-300 ring-1 ring-inset ring-amber-400/30">RESEARCH</li>
+        <li aria-hidden="true" class="text-slate-500">→</li>
+        <li class="rounded-full bg-cyan-400/10 px-3 py-1 text-cyan-300 ring-1 ring-inset ring-cyan-400/30">BETA</li>
+        <li aria-hidden="true" class="text-slate-500">→</li>
+        <li class="rounded-full bg-emerald-400/10 px-3 py-1 text-emerald-300 ring-1 ring-inset ring-emerald-400/30">RELEASE</li>
+      </ol>
+    </article>
+
+    <article class="glass rounded-3xl p-6 md:col-span-2" data-reveal style="--d:80ms">
+      <AppIcon name="Zap" size={26} className="text-brand-cyan" />
+      <h3 class="mt-4 text-xl font-semibold text-white">Free to run</h3>
+      <p class="mt-2 text-sm leading-relaxed text-slate-300">Static site on GitHub or Cloudflare Pages. No servers, no card.</p>
+    </article>
+
+    <article class="glass rounded-3xl p-6 md:col-span-2" data-reveal>
+      <AppIcon name="Smartphone" size={26} className="text-brand-pink" />
+      <h3 class="mt-4 text-xl font-semibold text-white">Installable</h3>
+      <p class="mt-2 text-sm leading-relaxed text-slate-300">A PWA: add it to your home screen and open it like an app.</p>
+    </article>
+
+    <article class="glass rounded-3xl p-6 md:col-span-2" data-reveal style="--d:80ms">
+      <AppIcon name="Gauge" size={26} className="text-emerald-300" />
+      <h3 class="mt-4 text-xl font-semibold text-white">Fast by default</h3>
+      <p class="mt-2 text-sm leading-relaxed text-slate-300">Static HTML, tiny islands of JavaScript, self-hosted fonts.</p>
+    </article>
+
+    <article class="glass rounded-3xl p-6 md:col-span-2" data-reveal style="--d:160ms">
+      <AppIcon name="Database" size={26} className="text-amber-300" />
+      <h3 class="mt-4 text-xl font-semibold text-white">One file adds an app</h3>
+      <pre class="mt-3 overflow-x-auto rounded-xl bg-black/40 p-3 text-xs leading-relaxed text-slate-300"><code>{`{ "id": "my-app",
+  "status": "riset" }`}</code></pre>
+    </article>
+  </div>
+</section>

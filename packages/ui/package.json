@@ -1,0 +1,17 @@
+{
+  "name": "@mab/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reusable UI components & shared types for MAB-App",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": { "lucide-react": "^0.468.0" },
+  "peerDependencies": { "react": "^18.3.1 || ^19.0.0" },
+  "devDependencies": {
+    "@mab/config": "workspace:*",
+    "@types/react": "^18.3.18",
+    "react": "^18.3.1",
+    "typescript": "^5.7.2"
+  }
+}
