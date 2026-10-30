@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { LazyMotion, domAnimation } from 'framer-motion';
-import { Search, SearchX, X } from 'lucide-react';
+import { Check, Search, SearchX, X } from 'lucide-react';
 import { AppIcon, PLATFORMS, PLATFORM_META } from '@mab/ui';
 import type { AppSummary, Platform } from '@mab/ui';
 import AppCard from './AppCard';
@@ -12,9 +12,14 @@ interface Props {
   appBase: string;
 }
 
+/** Tombol platform: aktif = putih solid + centang, nonaktif = transparan */
+const platformChip = (on: boolean) =>
+  `inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+    on ? 'border-transparent bg-white text-ink-950' : 'border-white/15 bg-white/5 text-slate-200 hover:bg-white/10'
+  }`;
+
 /**
  * Search + filter kategori + filter platform — semuanya client-side & instan.
- * Data diterima sebagai props dari apps-registry/apps.json (di-build oleh Astro).
  */
 export default function AppExplorer({ apps, appBase }: Props) {
   const [query, setQuery] = useState('');
@@ -25,7 +30,6 @@ export default function AppExplorer({ apps, appBase }: Props) {
 
   useEffect(() => {
     setReady(true);
-    // Shortcut: tekan "/" untuk fokus ke kolom pencarian
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null;
       const typing = !!t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
@@ -35,7 +39,6 @@ export default function AppExplorer({ apps, appBase }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Index teks pencarian dihitung sekali
   const index = useMemo(
     () => apps.map((a) => ({
       a,
@@ -46,7 +49,6 @@ export default function AppExplorer({ apps, appBase }: Props) {
 
   const q = useDeferredValue(query).trim().toLowerCase();
 
-  // Hasil setelah search + platform (dipakai juga untuk hitungan di tab kategori)
   const base = useMemo(() => {
     const terms = q.split(/\s+/).filter(Boolean);
     return index
@@ -91,22 +93,19 @@ export default function AppExplorer({ apps, appBase }: Props) {
 
         <CategoryFilter value={category} onChange={setCategory} counts={counts} />
 
-        {/* Platform + status baris */}
+        {/* Platform filter */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div role="group" aria-label="Filter by platform" className="flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-sm font-medium text-slate-300">Platform:</span>
+            <button type="button" aria-pressed={platforms.length === 0} onClick={() => setPlatforms([])} className={platformChip(platforms.length === 0)}>
+              {platforms.length === 0 && <Check size={14} aria-hidden="true" />}
+              All
+            </button>
             {PLATFORMS.map((p) => {
               const on = platforms.includes(p);
               return (
-                <button
-                  key={p}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => togglePlatform(p)}
-                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                    on ? 'border-violet-400/60 bg-violet-500/20 text-white' : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
-                  }`}
-                >
-                  <AppIcon name={PLATFORM_META[p].icon} size={14} />
+                <button key={p} type="button" aria-pressed={on} onClick={() => togglePlatform(p)} className={platformChip(on)}>
+                  {on ? <Check size={14} aria-hidden="true" /> : <AppIcon name={PLATFORM_META[p].icon} size={14} />}
                   {PLATFORM_META[p].label}
                 </button>
               );

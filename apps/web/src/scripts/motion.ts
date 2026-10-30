@@ -1,27 +1,12 @@
 /**
- * Lenis (smooth scroll) + GSAP (counter & parallax orb).
- * Di-import secara dinamis saat browser idle → tidak membebani render awal.
+ * GSAP: counter statistik & parallax orb.
+ * Scroll TIDAK dimodifikasi → memakai scroll native browser (instan, tanpa jeda).
  */
 export async function initMotion() {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return; // hormati preferensi pengguna: tanpa smooth scroll & animasi
+  if (reduce) return;
 
-  const [{ default: Lenis }, { gsap }] = await Promise.all([import('lenis'), import('gsap')]);
-
-  const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
-  gsap.ticker.add((t) => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  // Anchor link (#vault, /#about, dst.) → scroll halus lewat Lenis
-  document.addEventListener('click', (e) => {
-    const a = (e.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
-    if (!a || a.origin !== location.origin || a.pathname !== location.pathname || !a.hash) return;
-    const target = document.querySelector(a.hash);
-    if (!target) return;
-    e.preventDefault();
-    lenis.scrollTo(target as HTMLElement, { offset: -72 });
-    history.pushState(null, '', a.hash);
-  });
+  const { gsap } = await import('gsap');
 
   // Counter statistik di hero
   document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
