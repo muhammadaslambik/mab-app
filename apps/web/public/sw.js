@@ -1,14 +1,20 @@
 /* Service worker minimal: offline shell + cache aset ber-hash. Naikkan VERSION untuk reset cache. */
-const VERSION = 'mab-v1';
-const CORE = ['/', '/404.html', '/favicon.svg', '/manifest.webmanifest'];
+const VERSION = 'mab-v2';
+const CORE = ['/', '/favicon.svg', '/manifest.webmanifest'];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil((async () => {
+    const cache = await caches.open(VERSION);
+    await Promise.allSettled(CORE.map((url) => cache.add(url))); // satu gagal ≠ semua gagal
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()),
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim()),
   );
 });
 

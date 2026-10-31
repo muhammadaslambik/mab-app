@@ -81,6 +81,7 @@ function initPwa() {
     addEventListener('load', () => navigator.serviceWorker.register(`${base}/sw.js`).catch(() => {}));
   }
 
+  const w = window as any;
   const buttons = document.querySelectorAll<HTMLElement>('[data-install]');
   const hideAll = () => buttons.forEach((b) => b.setAttribute('hidden', ''));
 
@@ -88,19 +89,18 @@ function initPwa() {
   const standalone = matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
   if (standalone) return hideAll();
 
-  let deferred: any = null;
-  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
-  addEventListener('appinstalled', () => { deferred = null; hideAll(); });
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); w.__pwaPrompt = e; });
+  addEventListener('appinstalled', () => { w.__pwaPrompt = null; hideAll(); });
 
   buttons.forEach((b) => {
     b.removeAttribute('hidden');
     b.addEventListener('click', async () => {
-      if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; return; } // Chromium: pasang langsung
-      openInstallHelp(); // Safari / Firefox / lainnya: tampilkan panduan
+      const p = w.__pwaPrompt;
+      if (p) { p.prompt(); await p.userChoice; w.__pwaPrompt = null; return; } // Chromium: pasang langsung
+      openInstallHelp(); // Safari / Firefox / sudah terpasang: tampilkan panduan
     });
   });
 
-  // Dialog panduan: tombol tutup + klik area gelap
   const dlg = document.getElementById('install-help') as HTMLDialogElement | null;
   dlg?.querySelector('[data-install-close]')?.addEventListener('click', () => dlg.close());
   dlg?.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });

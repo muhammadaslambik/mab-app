@@ -52,7 +52,12 @@ const ogImage = new URL(image, Astro.site).href;
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Tandai JS aktif → animasi reveal hanya berjalan jika JS tersedia -->
-    <script is:inline>document.documentElement.classList.add('js')</script>
+    
+    <script is:inline>
+     document.documentElement.classList.add('js');
+     window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__pwaPrompt = e; });
+    </script>
+
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
