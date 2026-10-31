@@ -1,31 +1,37 @@
 /**
- * GSAP: counter statistik & parallax orb.
- * Scroll TIDAK dimodifikasi → memakai scroll native browser (instan, tanpa jeda).
+ * Animasi ringan:
+ *  - counter statistik di hero: JavaScript murni (±0.3 KB), semua perangkat
+ *  - parallax orb: GSAP dimuat HANYA di desktop dengan mouse → HP tidak mengunduh GSAP sama sekali
  */
-export async function initMotion() {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
-
-  const { gsap } = await import('gsap');
-
-  // Counter statistik di hero
+function counters() {
   document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
     const end = Number(el.dataset.count ?? 0);
-    const o = { v: 0 };
+    if (!end) return;
+    const dur = 1100;
+    const start = performance.now() + 350;
     el.textContent = '0';
-    gsap.to(o, { v: end, duration: 1.4, delay: 0.6, ease: 'power2.out', onUpdate: () => (el.textContent = String(Math.round(o.v))) });
+    const tick = (now: number) => {
+      const p = Math.min(Math.max((now - start) / dur, 0), 1);
+      el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   });
+}
 
-  // Parallax orb mengikuti pointer (hanya perangkat dengan mouse)
-  if (matchMedia('(pointer: fine)').matches) {
-    const orbs = [...document.querySelectorAll<HTMLElement>('.orb-wrap')].map((el) => ({
-      depth: Number(el.dataset.depth ?? 20),
-      x: gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3.out' }),
-      y: gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3.out' }),
-    }));
-    addEventListener('pointermove', (e) => {
-      const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
-      orbs.forEach((o) => { o.x(nx * o.depth * 2); o.y(ny * o.depth * 2); });
-    }, { passive: true });
-  }
+export async function initMotion() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  counters();
+
+  if (!matchMedia('(pointer: fine)').matches || innerWidth < 1024) return;
+  const { gsap } = await import('gsap');
+  const orbs = [...document.querySelectorAll<HTMLElement>('.orb-wrap')].map((el) => ({
+    depth: Number(el.dataset.depth ?? 20),
+    x: gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3.out' }),
+    y: gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3.out' }),
+  }));
+  addEventListener('pointermove', (e) => {
+    const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
+    orbs.forEach((o) => { o.x(nx * o.depth * 2); o.y(ny * o.depth * 2); });
+  }, { passive: true });
 }

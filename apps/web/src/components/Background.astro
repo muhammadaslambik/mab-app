@@ -1,10 +1,10 @@
 ---
-/** Layer latar fixed: grid + gradient mesh (CSS) + canvas partikel. Semua aria-hidden. */
+/** Layer latar fixed: grid + gradient mesh (CSS) + canvas partikel (hanya layar ≥ md). Semua aria-hidden. */
 ---
 <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
   <div class="grid-overlay absolute inset-0"></div>
   <div class="orb-wrap absolute -left-[20vmax] -top-[18vmax]" data-depth="30"><div class="orb orb-violet"></div></div>
   <div class="orb-wrap absolute -right-[22vmax] top-[10vmax]" data-depth="-24"><div class="orb orb-cyan"></div></div>
-  <div class="orb-wrap absolute -bottom-[24vmax] left-[20vw]" data-depth="18"><div class="orb orb-pink"></div></div>
-  <canvas id="particles" class="absolute inset-0 h-full w-full"></canvas>
+  <div class="orb-wrap absolute -bottom-[24vmax] left-[20vw] hidden md:block" data-depth="18"><div class="orb orb-pink"></div></div>
+  <canvas id="particles" class="absolute inset-0 hidden h-full w-full md:block"></canvas>
 </div>

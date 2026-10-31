@@ -1,7 +1,11 @@
-/** Particle dots canvas — vanilla. Dibatasi 30 fps, DPR 1, dan DIJEDA saat halaman sedang di-scroll. */
+/**
+ * Particle dots canvas — vanilla. Hanya layar ≥ md (HP: tidak dibuat sama sekali).
+ * Dibatasi 30 fps, DPR 1, dan DIJEDA saat halaman sedang di-scroll.
+ */
 interface P { x: number; y: number; vx: number; vy: number; r: number }
 
 export function initParticles(canvas: HTMLCanvasElement) {
+  if (innerWidth < 768) { canvas.remove(); return; } // HP → lebih ringan
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -11,7 +15,6 @@ export function initParticles(canvas: HTMLCanvasElement) {
 
   const draw = (t = 0) => {
     if (!reduce) raf = requestAnimationFrame(draw);
-    // Lewati frame saat scroll aktif atau jika belum waktunya (30 fps)
     if (!reduce && (root.classList.contains('is-scrolling') || t - last < FRAME)) return;
     last = t;
     ctx.clearRect(0, 0, w, h);
@@ -47,7 +50,7 @@ export function initParticles(canvas: HTMLCanvasElement) {
 
   let timer = 0, lastW = innerWidth;
   addEventListener('resize', () => {
-    if (innerWidth === lastW) return; // abaikan perubahan tinggi (address bar mobile)
+    if (innerWidth === lastW) return;
     lastW = innerWidth; clearTimeout(timer); timer = window.setTimeout(resize, 150);
   });
   document.addEventListener('visibilitychange', () => {

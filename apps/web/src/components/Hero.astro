@@ -1,47 +1,48 @@
 ---
 import { ArrowDown } from 'lucide-react';
-import { SITE } from '@/lib/site';
 import { withBase } from '@/lib/url';
 
 interface Props { stats: { total: number; research: number; categories: number } }
 const { stats } = Astro.props;
 const letters = Array.from('MAB-APP');
+// Tiap kotak statistik bisa diklik → scroll ke vault (kotak "research" juga menyaring aplikasi riset)
 const items = [
-  { n: stats.total, label: 'Apps in the vault' },
-  { n: stats.research, label: 'Currently in research' },
-  { n: stats.categories, label: 'Categories' },
+  { id: 'apps', n: stats.total, key: 'hero.stat.apps', label: 'Apps in the vault' },
+  { id: 'research', n: stats.research, key: 'hero.stat.research', label: 'Currently in research' },
+  { id: 'categories', n: stats.categories, key: 'hero.stat.categories', label: 'Categories' },
 ];
 ---
 <section class="relative">
-  <div class="mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center px-5 pb-16 pt-28 text-center">
+  <div class="mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center px-5 pb-14 pt-24 text-center sm:pt-28">
     <p class="eyebrow" data-reveal>
       <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-cyan" aria-hidden="true"></span>
-      Open lab · new experiments every month
+      <span data-i18n="hero.badge">Open lab · new experiments every month</span>
     </p>
 
     <!-- Text reveal: CSS-only, tiap huruf muncul berurutan -->
-    <h1 class="mt-8 font-display text-[clamp(3.1rem,15vw,9rem)] font-bold leading-[0.95] tracking-tighter [perspective:800px]" aria-label="MAB-APP">
+    <h1 dir="ltr" class="mt-7 font-display text-[clamp(3.1rem,15vw,9rem)] font-bold leading-[0.95] tracking-tighter [perspective:800px]" aria-label="MAB-APP">
       {letters.map((ch, i) => <span class="hero-letter" style={`--i:${i}`} aria-hidden="true">{ch}</span>)}
     </h1>
 
-    <p class="mt-6 text-balance font-display text-xl text-white sm:text-2xl" data-reveal style="--d:450ms">{SITE.tagline}</p>
-    <p class="mt-4 max-w-xl text-pretty leading-relaxed text-slate-300" data-reveal style="--d:560ms">
-      A growing vault of experimental apps, games, business tools and learning products.
-      Browse what is being built, filter by platform, and follow each idea from prototype to release.
+    <p class="mt-6 text-balance font-display text-xl text-white sm:text-2xl" data-reveal style="--d:450ms" data-i18n="hero.tagline">Research Lab for Future Applications</p>
+    <p class="mt-4 max-w-xl text-pretty leading-relaxed text-slate-300" data-reveal style="--d:560ms" data-i18n="hero.desc">
+      A growing vault of experimental apps, games, business tools and learning products. Browse what is being built, filter by platform, and follow each idea from prototype to release.
     </p>
 
-    <div class="mt-9 flex flex-wrap items-center justify-center gap-3" data-reveal style="--d:680ms">
-      <a href={withBase('#vault')} class="btn btn-primary">Explore the vault <ArrowDown size={16} aria-hidden="true" /></a>
-      <a href={withBase('#about')} class="btn btn-ghost">How it works</a>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3" data-reveal style="--d:680ms">
+      <a href={withBase('#vault')} class="btn btn-primary"><span data-i18n="hero.cta.explore">Explore the vault</span> <ArrowDown size={16} aria-hidden="true" /></a>
+      <a href={withBase('#about')} class="btn btn-ghost"><span data-i18n="hero.cta.how">How it works</span></a>
     </div>
 
-    <dl class="mt-14 grid w-full max-w-xl grid-cols-3 gap-3" data-reveal style="--d:800ms">
+    <ul class="mt-12 grid w-full max-w-xl grid-cols-3 gap-2.5 sm:gap-3" data-reveal style="--d:800ms">
       {items.map((s) => (
-        <div class="glass flex flex-col rounded-2xl px-3 py-4">
-          <dt class="order-2 mt-1 text-xs text-slate-300">{s.label}</dt>
-          <dd class="font-display text-3xl font-bold text-white" data-count={s.n}>{s.n}</dd>
-        </div>
+        <li>
+          <a href={withBase('#vault')} data-stat={s.id} class="stat-tile glass flex h-full flex-col items-center rounded-2xl px-2 py-4 sm:px-3">
+            <span class="stat-num font-display text-3xl font-bold text-white" data-count={s.n}>{s.n}</span>
+            <span class="stat-label mt-1 text-center text-xs text-slate-300" data-i18n={s.key}>{s.label}</span>
+          </a>
+        </li>
       ))}
-    </dl>
+    </ul>
   </div>
 </section>

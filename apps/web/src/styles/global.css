@@ -14,8 +14,10 @@
   }
   body { @apply min-h-screen overflow-x-clip bg-transparent font-sans text-slate-200 antialiased; }
   h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  /* Sentuhan langsung terasa: tanpa jeda tap & tanpa kilau abu-abu bawaan browser */
+  a, button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   ::selection { background: rgb(124 92 255 / 0.45); color: #fff; }
-  :focus-visible { outline: 2px solid #22d3ee; outline-offset: 3px; }
+  :focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
 }
 
 /* ───────── Components ───────── */
@@ -25,9 +27,7 @@
     background-image: linear-gradient(135deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.01));
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 12px 28px -18px rgb(0 0 0 / 0.8);
   }
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 active:scale-[0.97]; }
-  .btn-primary { @apply bg-gradient-to-r from-brand-violet to-brand-cyan text-ink-950 shadow-[0_8px_30px_-8px_rgba(124,92,255,0.7)] hover:brightness-110; }
-  .btn-ghost { @apply border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold; }
   .chip { @apply inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] font-medium text-slate-300; }
   .eyebrow { @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-sm text-slate-300; }
 }
@@ -36,6 +36,33 @@
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 }
+
+/* ───────── Tombol & elemen klik: hover/sentuh → biru tema ─────────
+   hover hanya di perangkat yang punya mouse (tidak "lengket" di HP);
+   :active langsung berubah tanpa transisi → terasa instan saat disentuh. */
+.btn-primary {
+  background-image: linear-gradient(90deg, #7c5cff, #22d3ee);
+  color: #05060b;
+  box-shadow: 0 8px 30px -8px rgb(124 92 255 / 0.7);
+  transition: box-shadow 0.15s, filter 0.15s;
+}
+.btn-ghost {
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background-color: rgb(255 255 255 / 0.05);
+  color: #f1f5f9;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+}
+.hv-sky { transition: color 0.15s, background-color 0.15s, border-color 0.15s; }
+.hv-text { transition: color 0.15s; }
+
+@media (hover: hover) {
+  .btn-primary:hover { background-image: linear-gradient(90deg, #38bdf8, #67e8f9); box-shadow: 0 8px 30px -6px rgb(56 189 248 / 0.8); }
+  .btn-ghost:hover, .hv-sky:hover { color: #7dd3fc; background-color: rgb(56 189 248 / 0.14); border-color: rgb(56 189 248 / 0.55); }
+  .hv-text:hover { color: #7dd3fc; }
+}
+.btn-primary:active { background-image: linear-gradient(90deg, #38bdf8, #67e8f9); transform: scale(0.97); transition: none; }
+.btn-ghost:active, .hv-sky:active { color: #7dd3fc; background-color: rgb(56 189 248 / 0.24); border-color: rgb(56 189 248 / 0.7); transition: none; }
+.hv-text:active { color: #7dd3fc; transition: none; }
 
 /* ───────── Hero: text reveal (CSS-only → tidak menunda LCP) ───────── */
 .hero-letter {
@@ -49,6 +76,54 @@
   animation-delay: calc(var(--i) * 55ms + 120ms);
 }
 @keyframes letter-in { to { opacity: 1; transform: none; } }
+
+/* ───────── Kotak statistik hero (bisa diklik) ───────── */
+.stat-tile { transition: border-color 0.15s, background-color 0.15s, transform 0.15s; }
+.stat-tile .stat-num, .stat-tile .stat-label { transition: color 0.15s; }
+@media (hover: hover) {
+  .stat-tile:hover { border-color: rgb(56 189 248 / 0.55); background-color: rgb(56 189 248 / 0.1); transform: translateY(-2px); }
+  .stat-tile:hover .stat-num, .stat-tile:hover .stat-label { color: #7dd3fc; }
+}
+.stat-tile:active { border-color: rgb(56 189 248 / 0.7); background-color: rgb(56 189 248 / 0.2); transform: scale(0.97); transition: none; }
+.stat-tile:active .stat-num, .stat-tile:active .stat-label { color: #7dd3fc; transition: none; }
+
+/* ───────── Kartu aplikasi: tilt/glow/ikon murni CSS ───────── */
+.app-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.2s ease-out, border-color 0.15s, background-color 0.15s;
+}
+.app-card .app-glow {
+  background: radial-gradient(320px circle at var(--gx, 50%) var(--gy, 50%), rgb(56 189 248 / 0.14), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.app-card .app-icon { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.app-card .app-title, .app-card .app-more { transition: color 0.15s; }
+@media (hover: hover) {
+  .app-card:hover { border-color: rgb(56 189 248 / 0.45); }
+  .app-card:hover .app-glow { opacity: 1; }
+  .app-card:hover .app-icon { transform: rotate(-6deg) scale(1.1); }
+  .app-card:hover .app-title, .app-card:hover .app-more { color: #7dd3fc; }
+}
+/* Disentuh / diklik: warna langsung berubah, tanpa menunggu transisi */
+.app-card:active {
+  transform: perspective(900px) scale(0.985);
+  background-color: rgb(56 189 248 / 0.14);
+  border-color: rgb(56 189 248 / 0.65);
+  transition: none;
+}
+.app-card:active .app-title, .app-card:active .app-more { color: #7dd3fc; transition: none; }
+.app-card:focus-visible { border-color: rgb(56 189 248 / 0.6); }
+
+/* Kartu yang muncul karena filter berubah */
+.card-in { animation: card-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes card-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+
+/* ───────── Pemilih bahasa ───────── */
+.lang-btn svg { transition: transform 0.35s ease; }
+@media (hover: hover) { .lang-btn:hover svg { transform: rotate(20deg); } }
+.lang-item[aria-checked='true'] { color: #7dd3fc; }
+.lang-item[aria-checked='true'] .lang-check { opacity: 1; }
 
 /* ───────── Background: gradient mesh + grid ───────── */
 .grid-overlay {
@@ -69,6 +144,8 @@
 }
 /* Jeda animasi latar selama scroll → scroll terasa ringan */
 .is-scrolling .orb { animation-play-state: paused; }
+/* HP: latar statis (tanpa animasi) → hemat baterai & mulus */
+@media (max-width: 767px) { .orb { animation: none; width: 80vmax; height: 80vmax; will-change: auto; } }
 
 /* ───────── Scroll reveal (Intersection Observer) ─────────
    Hanya aktif jika JS jalan (class .js) → tanpa JS konten tetap terlihat. */
@@ -80,14 +157,10 @@
 }
 .js [data-reveal].is-visible { opacity: 1; transform: none; }
 
-/* ───────── Lenis ───────── */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-stopped { overflow: hidden; }
-
 /* ───────── Reduced motion ───────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
+  .app-card { transform: none !important; }
 }

@@ -1,0 +1,33 @@
+---
+import { LANGS } from '../i18n';
+---
+<div class="relative" id="lang-root">
+  <button id="lang-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu"
+    aria-label="Language" data-i18n-attr="aria-label:nav.language"
+    class="lang-btn hv-sky grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/5">
+    <!-- Ikon bumi: lingkaran + meridian + garis lintang, stroke gradien tema -->
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#globe-g)" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+      <defs>
+        <linearGradient id="globe-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#a78bfa" /><stop offset="1" stop-color="#22d3ee" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="9" />
+      <ellipse cx="12" cy="12" rx="4" ry="9" />
+      <path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" />
+    </svg>
+  </button>
+
+  <ul id="lang-menu" role="menu" hidden
+    class="absolute end-0 top-full z-50 mt-2 max-h-[70vh] w-56 overflow-auto rounded-2xl border border-white/10 bg-ink-900 p-1.5 shadow-2xl">
+    {LANGS.map((l) => (
+      <li role="none">
+        <button type="button" role="menuitemradio" aria-checked="false" data-lang={l.code} lang={l.code}
+          class="lang-item hv-sky flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-start text-sm text-slate-200">
+          <span>{l.native}</span>
+          <svg class="lang-check h-4 w-4 opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>

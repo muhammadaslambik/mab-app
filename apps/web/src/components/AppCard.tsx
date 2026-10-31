@@ -1,87 +1,91 @@
-import { m, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { AppIcon, CATEGORY_META, PlatformBadge, StatusBadge } from '@mab/ui';
+import { AppIcon, CATEGORY_META, PLATFORM_META, StatusBadge } from '@mab/ui';
 import type { AppSummary } from '@mab/ui';
+import type { TFn } from '../i18n';
 
 interface Props {
   app: AppSummary;
   href: string;
-  /** false saat render pertama (SSR/hydrate) agar kartu langsung terlihat; true untuk kartu yang muncul karena filter. */
+  /** false saat render pertama agar kartu langsung terlihat; true untuk kartu yang muncul karena filter. */
   animateIn: boolean;
+  t: TFn;
 }
 
-const spring = { stiffness: 220, damping: 22, mass: 0.6 };
-
 /**
- * Kartu aplikasi: 3D tilt mengikuti kursor, glow radial, ikon beranimasi saat hover.
- * Tilt hanya aktif untuk mouse (bukan touch) dan dimatikan bila reduced-motion.
+ * Kartu aplikasi — TANPA library animasi: tilt 3D, glow, dan ikon digerakkan CSS murni
+ * (variabel --rx/--ry/--gx/--gy diisi saat mouse bergerak). Di layar sentuh tidak ada tilt;
+ * warna berubah instan saat disentuh (:active) dan halaman terbuka saat ditap.
  */
-export default function AppCard({ app, href, animateIn }: Props) {
-  const reduce = useReducedMotion();
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), spring);
-  const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), spring);
-  const gx = useTransform(x, (v) => `${v * 100}%`);
-  const gy = useTransform(y, (v) => `${v * 100}%`);
-  const glow = useMotionTemplate`radial-gradient(360px circle at ${gx} ${gy}, rgba(124,92,255,0.22), transparent 65%)`;
+export default function AppCard({ app, href, animateIn, t }: Props) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const meta = CATEGORY_META[app.category];
 
   const onMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
     if (e.pointerType !== 'mouse') return;
-    const r = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - r.left) / r.width);
-    y.set((e.clientY - r.top) / r.height);
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    el.style.setProperty('--ry', `${((x - 0.5) * 10).toFixed(2)}deg`);
+    el.style.setProperty('--rx', `${((0.5 - y) * 10).toFixed(2)}deg`);
+    el.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`);
+    el.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`);
   };
-  const reset = () => { x.set(0.5); y.set(0.5); };
-  const meta = CATEGORY_META[app.category];
+  const onLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty('--rx', '0deg');
+    el.style.setProperty('--ry', '0deg');
+  };
 
   return (
-    <m.div
-      className={`[perspective:1000px] ${app.featured ? 'lg:col-span-2' : ''}`}
-      initial={animateIn ? { opacity: 0, y: 14, scale: 0.97 } : false}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
-      data-card
-    >
-      <m.a
+    <div className={`${animateIn ? 'card-in' : ''} ${app.featured ? 'lg:col-span-2' : ''}`} data-card>
+      <a
+        ref={ref}
         href={href}
+        data-prefetch
         onPointerMove={onMove}
-        onPointerLeave={reset}
-        style={reduce ? undefined : { rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        className="glass group relative flex h-full flex-col rounded-3xl p-5 transition-colors duration-300 hover:border-violet-400/40 focus-visible:border-violet-400/60"
+        onPointerLeave={onLeave}
+        className="app-card glass relative flex h-full flex-col gap-3 rounded-3xl p-4 sm:p-5"
       >
-        <m.span
-          aria-hidden="true"
-          style={{ background: glow }}
-          className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-        />
+        <span aria-hidden="true" className="app-glow pointer-events-none absolute inset-0 rounded-3xl" />
 
-        <div className="relative flex items-start justify-between gap-3" style={{ transform: 'translateZ(28px)' }}>
-          <span
-            className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${meta.gradient} text-white shadow-lg transition duration-500 group-hover:-rotate-6 group-hover:scale-110 group-hover:shadow-[0_0_28px_-4px_rgba(124,92,255,0.8)]`}
-          >
-            <AppIcon name={app.icon} size={24} />
+        <div className="relative flex items-center gap-3">
+          <span className={`app-icon grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${meta.gradient} text-white shadow-lg`}>
+            <AppIcon name={app.icon} size={22} />
           </span>
+          <div className="min-w-0 flex-1">
+            <h3 className="app-title truncate text-base font-semibold text-white sm:text-lg">{app.name}</h3>
+            <p className="truncate text-xs text-slate-400">{t(`cat.${app.category}`)}</p>
+          </div>
           <StatusBadge status={app.status} />
         </div>
 
-        <h3 className="relative mt-5 text-lg font-semibold text-white" style={{ transform: 'translateZ(18px)' }}>{app.name}</h3>
-        <p className="relative mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-300">{app.description}</p>
+        <p className="relative line-clamp-2 text-sm leading-relaxed text-slate-300">{app.description}</p>
 
-        <ul className="relative mt-4 flex flex-wrap gap-1.5" aria-label="Tech stack">
-          {app.tech_stack.slice(0, 3).map((t) => (<li key={t} className="chip">{t}</li>))}
+        {/* Tech stack hanya di layar lebar → kartu HP lebih ringkas */}
+        <ul className="relative hidden flex-wrap gap-1.5 sm:flex" aria-label="Tech stack">
+          {app.tech_stack.slice(0, 3).map((x) => (<li key={x} className="chip">{x}</li>))}
           {app.tech_stack.length > 3 && <li className="chip">+{app.tech_stack.length - 3}</li>}
         </ul>
 
-        <div className="relative mt-auto flex items-center justify-between border-t border-white/5 pt-4">
-          <span className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-            {app.platform.map((p) => (<PlatformBadge key={p} platform={p} />))}
+        <div className="relative mt-auto flex items-center justify-between gap-3 border-t border-white/5 pt-3">
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            {app.platform.map((p) => (
+              <span key={p} className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-300">
+                <AppIcon name={PLATFORM_META[p].icon} size={13} />
+                {t(`platform.${p}`)}
+              </span>
+            ))}
           </span>
-          <span className="mt-5 inline-flex items-center gap-1 text-xs font-medium text-slate-300 transition group-hover:text-white">
-            Details <ArrowUpRight size={14} aria-hidden="true" className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <span className="app-more inline-flex shrink-0 items-center gap-1 text-xs font-medium text-slate-300">
+            {t('card.details')}
+            <ArrowUpRight size={14} aria-hidden="true" />
           </span>
         </div>
-      </m.a>
-    </m.div>
+      </a>
+    </div>
   );
 }

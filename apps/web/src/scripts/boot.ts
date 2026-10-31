@@ -1,5 +1,6 @@
 /** Entry script global (dipanggil dari BaseLayout). Semua ringan & tanpa dependensi besar. */
 import { initParticles } from './particles';
+import { detectLang, getLang, setLang, subscribe, type LangCode } from '../i18n';
 
 /* 1. Scroll reveal dengan Intersection Observer */
 function initReveal() {
@@ -30,18 +31,76 @@ function initHeader() {
   onScroll();
 }
 
-/* 3. Menu mobile */
+/* 3. Menu hamburger: tutup saat klik di luar menu, saat memilih link, atau tekan Esc */
 function initMenu() {
   const btn = document.getElementById('menu-btn');
   const menu = document.getElementById('mobile-menu');
   if (!btn || !menu) return;
   const set = (open: boolean) => { btn.setAttribute('aria-expanded', String(open)); menu.hidden = !open; };
   btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
-  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+  menu.querySelectorAll('a, button').forEach((el) => el.addEventListener('click', () => set(false)));
+  document.addEventListener('pointerdown', (e) => {
+    if (menu.hidden) return;
+    const target = e.target as Node;
+    if (menu.contains(target) || btn.contains(target)) return; // klik di dalam menu/tombolnya: biarkan
+    set(false);
+  });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
 }
 
-/* 4. PWA: service worker + tombol Install untuk SEMUA browser */
+/* 4. Pemilih bahasa (ikon bumi) */
+async function initLang() {
+  const btn = document.getElementById('lang-btn');
+  const menu = document.getElementById('lang-menu');
+  const mark = () =>
+    menu?.querySelectorAll<HTMLElement>('[data-lang]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.lang === getLang())));
+  const setOpen = (open: boolean) => {
+    if (!btn || !menu) return;
+    btn.setAttribute('aria-expanded', String(open));
+    menu.hidden = !open;
+  };
+
+  btn?.addEventListener('click', () => setOpen(!!menu?.hidden));
+  menu?.addEventListener('click', async (e) => {
+    const b = (e.target as Element).closest<HTMLElement>('[data-lang]');
+    if (!b) return;
+    setOpen(false);
+    await setLang(b.dataset.lang as LangCode);
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (menu && !menu.hidden && !(e.target as Element).closest('#lang-root')) setOpen(false);
+  });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  subscribe(mark);
+  mark();
+  const initial = detectLang();
+  if (initial !== 'en') await setLang(initial, false); // bahasa browser/tersimpan
+}
+
+/* 5. Kotak statistik hero → saring vault; prefetch halaman detail saat jari/mouse menekan kartu */
+function initLinks() {
+  document.addEventListener('click', (e) => {
+    const tile = (e.target as Element).closest<HTMLElement>('[data-stat]');
+    if (!tile) return;
+    const detail = { status: tile.dataset.stat === 'research' ? 'riset' : null };
+    (window as any).__vaultFilter = detail; // jika island belum siap, dibaca saat mount
+    window.dispatchEvent(new CustomEvent('vault:filter', { detail }));
+  });
+
+  const done = new Set<string>();
+  document.addEventListener('pointerdown', (e) => {
+    const a = (e.target as Element).closest<HTMLAnchorElement>('a[data-prefetch]');
+    if (!a || done.has(a.href)) return;
+    done.add(a.href);
+    const l = document.createElement('link');
+    l.rel = 'prefetch';
+    l.href = a.href;
+    document.head.append(l);
+  }, { passive: true });
+}
+
+/* 6. PWA: service worker + tombol Install untuk SEMUA browser */
 function detectPlatform(): string {
   const ua = navigator.userAgent;
   const coarse = navigator.maxTouchPoints > 1 || matchMedia('(pointer: coarse)').matches;
@@ -54,7 +113,6 @@ function detectPlatform(): string {
   const isSafariMac = !isIOS && !isAndroid && /safari/i.test(ua) && !/chrome|crios|chromium|edg|opr/i.test(ua);
 
   if (isIOS) return 'ios';
-  // HP/tablet Android, atau perangkat sentuh berlayar sempit (mis. mode "situs desktop" aktif)
   if (isAndroid || (coarse && innerWidth < 820 && !isSafariMac)) {
     if (isFirefox) return 'android-firefox';
     if (isOpera) return 'android-opera';
@@ -85,7 +143,6 @@ function initPwa() {
   const buttons = document.querySelectorAll<HTMLElement>('[data-install]');
   const hideAll = () => buttons.forEach((b) => b.setAttribute('hidden', ''));
 
-  // Sudah dibuka sebagai aplikasi terpasang → tidak perlu tombol
   const standalone = matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
   if (standalone) return hideAll();
 
@@ -96,8 +153,8 @@ function initPwa() {
     b.removeAttribute('hidden');
     b.addEventListener('click', async () => {
       const p = w.__pwaPrompt;
-      if (p) { p.prompt(); await p.userChoice; w.__pwaPrompt = null; return; } // Chromium: pasang langsung
-      openInstallHelp(); // Safari / Firefox / sudah terpasang: tampilkan panduan
+      if (p) { p.prompt(); await p.userChoice; w.__pwaPrompt = null; return; }
+      openInstallHelp();
     });
   });
 
@@ -109,9 +166,11 @@ function initPwa() {
 initReveal();
 initHeader();
 initMenu();
+initLinks();
 initPwa();
+initLang();
 
-/* 5. Non-kritis → tunggu browser idle */
+/* 7. Non-kritis → tunggu browser idle */
 const idle: (cb: () => void) => void = (cb) =>
   'requestIdleCallback' in window ? (window as any).requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 300);
 

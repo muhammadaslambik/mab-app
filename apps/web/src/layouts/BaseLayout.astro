@@ -51,17 +51,19 @@ const ogImage = new URL(image, Astro.site).href;
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Tandai JS aktif → animasi reveal hanya berjalan jika JS tersedia -->
-    
+    <!-- Sedini mungkin: tandai JS aktif, pasang lang/dir tersimpan (anti kedip RTL), tangkap event install -->
     <script is:inline>
-     document.documentElement.classList.add('js');
-     window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__pwaPrompt = e; });
+      document.documentElement.classList.add('js');
+      try {
+        var l = localStorage.getItem('mab-lang');
+        if (l) { document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; }
+      } catch (e) {}
+      window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__pwaPrompt = e; });
     </script>
-
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
-    <a href="#main" class="sr-only z-[60] rounded-full bg-white px-4 py-2 text-ink-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
+    <a href="#main" data-i18n="a11y.skip" class="sr-only z-[60] rounded-full bg-white px-4 py-2 text-ink-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
     <Background />
     <div class="relative z-10 flex min-h-screen flex-col">
       <Navbar />
