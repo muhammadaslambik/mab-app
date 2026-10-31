@@ -44,12 +44,24 @@ function initMenu() {
 /* 4. PWA: service worker + tombol Install untuk SEMUA browser */
 function detectPlatform(): string {
   const ua = navigator.userAgent;
+  const coarse = navigator.maxTouchPoints > 1 || matchMedia('(pointer: coarse)').matches;
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  const isAndroid = /android/i.test(ua);
+  const isAndroid = /android/i.test(ua) || (navigator as any).userAgentData?.platform === 'Android';
+  const isOpera = /opr\/|opera|opt\//i.test(ua);
+  const isEdge = /edga|edgios|edg\//i.test(ua);
   const isFirefox = /firefox|fxios/i.test(ua);
-  const isSafariMac = !isIOS && /safari/i.test(ua) && !/chrome|crios|chromium|edg/i.test(ua);
+  const isSamsung = /samsungbrowser/i.test(ua);
+  const isSafariMac = !isIOS && !isAndroid && /safari/i.test(ua) && !/chrome|crios|chromium|edg|opr/i.test(ua);
+
   if (isIOS) return 'ios';
-  if (isAndroid) return isFirefox ? 'android-firefox' : 'android';
+  // HP/tablet Android, atau perangkat sentuh berlayar sempit (mis. mode "situs desktop" aktif)
+  if (isAndroid || (coarse && innerWidth < 820 && !isSafariMac)) {
+    if (isFirefox) return 'android-firefox';
+    if (isOpera) return 'android-opera';
+    if (isEdge) return 'android-edge';
+    if (isSamsung) return 'android-samsung';
+    return 'android';
+  }
   if (isSafariMac) return 'safari-mac';
   if (isFirefox) return 'firefox';
   return 'desktop';
