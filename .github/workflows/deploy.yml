@@ -30,9 +30,6 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-        env:
-          SITE_URL: https://muhammadaslambik.github.io
-          BASE_PATH: /mab-app
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/dist
