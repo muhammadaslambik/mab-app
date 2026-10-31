@@ -5,6 +5,7 @@ import '../styles/global.css';
 import Background from '../components/Background.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import InstallHelp from '../components/InstallHelp.astro';
 import { SITE } from '../lib/site';
 import { withBase } from '../lib/url';
 
@@ -35,6 +36,13 @@ const ogImage = new URL(image, Astro.site).href;
     <link rel="apple-touch-icon" href={withBase('icons/apple-touch-icon.png')} />
     <link rel="manifest" href={withBase('manifest.webmanifest')} />
 
+    <!-- PWA: Android/Chromium + iPhone/iPad (Safari) -->
+    <meta name="application-name" content={SITE.name} />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content={SITE.name} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={fullTitle} />
@@ -55,6 +63,7 @@ const ogImage = new URL(image, Astro.site).href;
       <main id="main" class="flex-1"><slot /></main>
       <Footer />
     </div>
+    <InstallHelp />
     <script>
       import '../scripts/boot';
     </script>

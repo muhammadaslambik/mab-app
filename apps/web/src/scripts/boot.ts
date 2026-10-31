@@ -12,7 +12,7 @@ function initReveal() {
   els.forEach((el) => io.observe(el));
 }
 
-/* 2. Header: glass lebih tegas setelah scroll */
+/* 2. Header + tandai "sedang scroll" (animasi latar dijeda saat scroll) */
 function initHeader() {
   const header = document.getElementById('site-header');
   const root = document.documentElement;
@@ -22,7 +22,6 @@ function initHeader() {
       const next = scrollY > 8;
       if (next !== state) { state = next; header.dataset.scrolled = String(next); }
     }
-    // Tandai "sedang scroll" → animasi latar dijeda sementara
     root.classList.add('is-scrolling');
     clearTimeout(timer);
     timer = window.setTimeout(() => root.classList.remove('is-scrolling'), 140);
@@ -42,24 +41,57 @@ function initMenu() {
   addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
 }
 
-/* 4. PWA: service worker + tombol Install */
+/* 4. PWA: service worker + tombol Install untuk SEMUA browser */
+function detectPlatform(): string {
+  const ua = navigator.userAgent;
+  const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /android/i.test(ua);
+  const isFirefox = /firefox|fxios/i.test(ua);
+  const isSafariMac = !isIOS && /safari/i.test(ua) && !/chrome|crios|chromium|edg/i.test(ua);
+  if (isIOS) return 'ios';
+  if (isAndroid) return isFirefox ? 'android-firefox' : 'android';
+  if (isSafariMac) return 'safari-mac';
+  if (isFirefox) return 'firefox';
+  return 'desktop';
+}
+
+function openInstallHelp() {
+  const dlg = document.getElementById('install-help') as HTMLDialogElement | null;
+  if (!dlg) return;
+  const key = detectPlatform();
+  dlg.querySelectorAll<HTMLElement>('[data-help]').forEach((el) => { el.hidden = el.dataset.help !== key; });
+  dlg.showModal();
+}
+
 function initPwa() {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     addEventListener('load', () => navigator.serviceWorker.register(`${base}/sw.js`).catch(() => {}));
   }
+
+  const buttons = document.querySelectorAll<HTMLElement>('[data-install]');
+  const hideAll = () => buttons.forEach((b) => b.setAttribute('hidden', ''));
+
+  // Sudah dibuka sebagai aplikasi terpasang → tidak perlu tombol
+  const standalone = matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
+  if (standalone) return hideAll();
+
   let deferred: any = null;
-  addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferred = e;
-    document.querySelectorAll('[data-install]').forEach((b) => b.removeAttribute('hidden'));
-  });
-  document.querySelectorAll('[data-install]').forEach((b) =>
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
+  addEventListener('appinstalled', () => { deferred = null; hideAll(); });
+
+  buttons.forEach((b) => {
+    b.removeAttribute('hidden');
     b.addEventListener('click', async () => {
-      if (!deferred) return;
-      deferred.prompt(); await deferred.userChoice; deferred = null;
-      document.querySelectorAll('[data-install]').forEach((x) => x.setAttribute('hidden', ''));
-    }),
-  );
+      if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; return; } // Chromium: pasang langsung
+      openInstallHelp(); // Safari / Firefox / lainnya: tampilkan panduan
+    });
+  });
+
+  // Dialog panduan: tombol tutup + klik area gelap
+  const dlg = document.getElementById('install-help') as HTMLDialogElement | null;
+  dlg?.querySelector('[data-install-close]')?.addEventListener('click', () => dlg.close());
+  dlg?.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 }
 
 initReveal();
