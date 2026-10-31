@@ -1,7 +1,7 @@
 const id: Record<string, string> = {
   'a11y.skip': 'Langsung ke konten',
 
-  'nav.vault': 'Vault',
+  'nav.vault': 'Koleksi',
   'nav.about': 'Mengapa MAB-APP',
   'nav.install': 'Pasang',
   'nav.menu': 'Buka/tutup menu',
@@ -10,9 +10,9 @@ const id: Record<string, string> = {
   'hero.badge': 'Lab terbuka · eksperimen baru setiap bulan',
   'hero.tagline': 'Laboratorium Riset untuk Aplikasi Masa Depan',
   'hero.desc': 'Koleksi aplikasi, game, alat bisnis, dan produk pembelajaran eksperimental yang terus bertambah. Jelajahi yang sedang dibangun, saring berdasarkan platform, dan ikuti setiap ide dari prototipe hingga rilis.',
-  'hero.cta.explore': 'Jelajahi vault',
+  'hero.cta.explore': 'Jelajahi koleksi',
   'hero.cta.how': 'Cara kerjanya',
-  'hero.stat.apps': 'Aplikasi di vault',
+  'hero.stat.apps': 'Aplikasi di koleksi',
   'hero.stat.research': 'Sedang diriset',
   'hero.stat.categories': 'Kategori',
 
@@ -28,7 +28,7 @@ const id: Record<string, string> = {
   'bento.fast.desc': 'HTML statis, JavaScript secukupnya, font dihosting sendiri.',
   'bento.registry.title': 'Satu berkas menambah aplikasi',
 
-  'vault.title': 'Vault',
+  'vault.title': 'Koleksi',
   'vault.subtitle': 'Semua aplikasi di lab. Cari, saring, dan buka untuk melihat detailnya.',
   'vault.search.placeholder': 'Cari nama, teknologi, atau tag…',
   'vault.search.label': 'Cari aplikasi',
@@ -57,7 +57,7 @@ const id: Record<string, string> = {
   'detail.all': 'Semua aplikasi',
   'detail.open': 'Buka {name}',
   'detail.notPublic': 'Belum publik',
-  'detail.backVault': 'Kembali ke vault',
+  'detail.backVault': 'Kembali ke koleksi',
   'detail.tech': 'Teknologi',
   'detail.details': 'Detail',
   'detail.status': 'Status',
@@ -69,7 +69,7 @@ const id: Record<string, string> = {
   'detail.note.beta': 'Aplikasi ini dalam tahap beta. Sudah berjalan, tetapi fitur dan data masih bisa berubah.',
   'detail.note.rilis': 'Aplikasi ini sudah dirilis dan siap digunakan.',
 
-  'notfound.title': 'Halaman ini tidak ada di vault',
+  'notfound.title': 'Halaman ini tidak ada di koleksi',
   'notfound.desc': 'Tautannya mungkin sudah usang, atau aplikasinya berganti nama.',
   'notfound.cta': 'Lihat semua aplikasi',
 };

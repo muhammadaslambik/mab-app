@@ -19,7 +19,7 @@ import { LANGS } from '../i18n';
   </button>
 
   <ul id="lang-menu" role="menu" hidden
-    class="absolute end-0 top-full z-50 mt-2 max-h-[70vh] w-56 overflow-auto rounded-2xl border border-white/10 bg-ink-900 p-1.5 shadow-2xl">
+    class="absolute right-0 top-full z-50 mt-2 max-h-[70vh] w-56 overflow-auto rounded-2xl border border-white/10 bg-ink-900 p-1.5 shadow-2xl">
     {LANGS.map((l) => (
       <li role="none">
         <button type="button" role="menuitemradio" aria-checked="false" data-lang={l.code} lang={l.code}

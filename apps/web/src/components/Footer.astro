@@ -4,7 +4,7 @@ import { SITE } from '@/lib/site';
 const year = new Date().getFullYear();
 ---
 <footer class="border-t border-white/10">
-  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-10 text-center text-sm text-slate-400 sm:flex-row sm:text-start">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-10 text-center text-sm text-slate-400 sm:flex-row sm:text-start sm:rtl:flex-row-reverse">
     <p dir="ltr" class="flex items-center gap-2.5 font-display font-semibold text-slate-200"><Logo /> MAB-APP</p>
     <p>© {year} {SITE.name}. <span data-i18n="footer.built">Built with Astro on a 100% free stack.</span></p>
     <a href={SITE.github} target="_blank" rel="noopener noreferrer" class="hv-text text-slate-300 underline-offset-4 hover:underline" data-i18n="footer.source">Source on GitHub</a>
