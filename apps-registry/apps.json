@@ -2,7 +2,7 @@
   "apps": [
     {
       "id": "nexus-notes",
-      "name": "Nexus Notes",
+      "name": "MAB-Nexus Notes",
       "category": "application",
       "platform": [
         "desktop",
