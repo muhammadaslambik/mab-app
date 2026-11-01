@@ -1,0 +1,115 @@
+{
+  "a11y": {
+    "skip": "Saltar al contenido"
+  },
+  "nav": {
+    "vault": "Bóveda",
+    "about": "¿Por qué MAB-APP?",
+    "install": "Instalar",
+    "menu": "Mostrar u ocultar menú",
+    "language": "Idioma"
+  },
+  "hero": {
+    "badge": "Laboratorio abierto · nuevos experimentos cada mes",
+    "tagline": "Laboratorio de investigación para las aplicaciones del futuro",
+    "desc": "Una bóveda en crecimiento de aplicaciones, juegos, herramientas de negocio y productos educativos experimentales. Explora lo que se está construyendo, filtra por plataforma y sigue cada idea desde el prototipo hasta el lanzamiento.",
+    "cta": {
+      "explore": "Explorar la bóveda",
+      "how": "Cómo funciona"
+    },
+    "stat": {
+      "apps": "Apps en la bóveda",
+      "research": "En investigación",
+      "categories": "Categorías"
+    }
+  },
+  "bento": {
+    "title": "Un laboratorio listo para crecer",
+    "subtitle": "Aquí las ideas empiezan en bruto. La base que las sostiene no tiene por qué serlo.",
+    "research": {
+      "title": "Primero investigar, después pulir",
+      "desc": "Cada app muestra un estado honesto, para que siempre sepas qué estás viendo."
+    },
+    "free": {
+      "title": "Gratis de mantener",
+      "desc": "Sitio estático en GitHub o Cloudflare Pages. Sin servidores ni tarjeta."
+    },
+    "pwa": {
+      "title": "Instalable",
+      "desc": "Es una PWA: añádela a tu pantalla de inicio y ábrela como una app."
+    },
+    "fast": {
+      "title": "Rápido por defecto",
+      "desc": "HTML estático, mínimo JavaScript y fuentes alojadas por nosotros."
+    },
+    "registry": {
+      "title": "Un archivo añade una app"
+    }
+  },
+  "vault": {
+    "title": "La bóveda",
+    "subtitle": "Todas las apps del laboratorio. Busca, filtra y abre cualquiera para ver los detalles.",
+    "search": {
+      "placeholder": "Busca por nombre, tecnología o etiqueta…",
+      "label": "Buscar apps",
+      "clear": "Borrar búsqueda"
+    },
+    "filter": {
+      "category": "Filtrar por categoría",
+      "platform": "Plataforma"
+    },
+    "showing": "Mostrando {n} de {total} apps",
+    "reset": "Restablecer filtros",
+    "empty": {
+      "title": "Ninguna app coincide con estos filtros",
+      "desc": "Prueba con otra palabra o quita los filtros."
+    },
+    "status": {
+      "riset": "En investigación"
+    }
+  },
+  "filter": {
+    "all": "Todas"
+  },
+  "cat": {
+    "application": "Aplicación",
+    "game": "Juego",
+    "business": "Negocios",
+    "education": "Educación"
+  },
+  "platform": {
+    "desktop": "Escritorio",
+    "mobile": "Móvil",
+    "web": "Web"
+  },
+  "card": {
+    "details": "Detalles"
+  },
+  "footer": {
+    "built": "Hecho con Astro sobre un stack 100 % gratuito.",
+    "source": "Código en GitHub"
+  },
+  "detail": {
+    "all": "Todas las apps",
+    "open": "Abrir {name}",
+    "notPublic": "Aún no es pública",
+    "backVault": "Volver a la bóveda",
+    "tech": "Tecnologías",
+    "details": "Detalles",
+    "status": "Estado",
+    "category": "Categoría",
+    "platforms": "Plataformas",
+    "updated": "Actualizada",
+    "more": "Más en esta categoría",
+    "note": {
+      "riset": "Esta app está en fase de investigación. Espera cambios rápidos, experimentos y detalles sin pulir.",
+      "beta": "Esta app está en beta. Funciona, pero las funciones y los datos aún pueden cambiar.",
+      "rilis": "Esta app ya está lanzada y lista para usar."
+    }
+  },
+  "notfound": {
+    "title": "Esta página no está en la bóveda",
+    "desc": "Puede que el enlace esté desactualizado o que la app haya cambiado de nombre.",
+    "cta": "Ver todas las apps"
+  }
+}

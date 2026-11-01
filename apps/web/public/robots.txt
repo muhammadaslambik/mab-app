@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 Sitemap: https://mab-app.eu.org/sitemap-index.xml

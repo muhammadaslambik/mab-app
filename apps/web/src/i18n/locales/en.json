@@ -1,0 +1,115 @@
+{
+  "a11y": {
+    "skip": "Skip to content"
+  },
+  "nav": {
+    "vault": "Vault",
+    "about": "Why MAB-APP",
+    "install": "Install",
+    "menu": "Toggle menu",
+    "language": "Language"
+  },
+  "hero": {
+    "badge": "Open lab · new experiments every month",
+    "tagline": "Research Lab for Future Applications",
+    "desc": "A growing vault of experimental apps, games, business tools and learning products. Browse what is being built, filter by platform, and follow each idea from prototype to release.",
+    "cta": {
+      "explore": "Explore the vault",
+      "how": "How it works"
+    },
+    "stat": {
+      "apps": "Apps in the vault",
+      "research": "Currently in research",
+      "categories": "Categories"
+    }
+  },
+  "bento": {
+    "title": "A lab that is ready to scale",
+    "subtitle": "Ideas start rough here. The foundation underneath them does not have to be.",
+    "research": {
+      "title": "Research first, polish later",
+      "desc": "Every app carries an honest status, so you always know what you are looking at."
+    },
+    "free": {
+      "title": "Free to run",
+      "desc": "Static site on GitHub or Cloudflare Pages. No servers, no card."
+    },
+    "pwa": {
+      "title": "Installable",
+      "desc": "A PWA: add it to your home screen and open it like an app."
+    },
+    "fast": {
+      "title": "Fast by default",
+      "desc": "Static HTML, tiny islands of JavaScript, self-hosted fonts."
+    },
+    "registry": {
+      "title": "One file adds an app"
+    }
+  },
+  "vault": {
+    "title": "The vault",
+    "subtitle": "Every app in the lab. Search, filter and open any of them for details.",
+    "search": {
+      "placeholder": "Search by name, tech or tag…",
+      "label": "Search apps",
+      "clear": "Clear search"
+    },
+    "filter": {
+      "category": "Filter by category",
+      "platform": "Platform"
+    },
+    "showing": "Showing {n} of {total} apps",
+    "reset": "Reset filters",
+    "empty": {
+      "title": "No apps match these filters",
+      "desc": "Try a different keyword or clear the filters."
+    },
+    "status": {
+      "riset": "In research"
+    }
+  },
+  "filter": {
+    "all": "All"
+  },
+  "cat": {
+    "application": "Application",
+    "game": "Game",
+    "business": "Business",
+    "education": "Education"
+  },
+  "platform": {
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "web": "Web"
+  },
+  "card": {
+    "details": "Details"
+  },
+  "footer": {
+    "built": "Built with Astro on a 100% free stack.",
+    "source": "Source on GitHub"
+  },
+  "detail": {
+    "all": "All apps",
+    "open": "Open {name}",
+    "notPublic": "Not public yet",
+    "backVault": "Back to the vault",
+    "tech": "Tech stack",
+    "details": "Details",
+    "status": "Status",
+    "category": "Category",
+    "platforms": "Platforms",
+    "updated": "Updated",
+    "more": "More in this category",
+    "note": {
+      "riset": "This app is in the research phase. Expect fast changes, experiments and rough edges.",
+      "beta": "This app is in beta. It works, but features and data may still change.",
+      "rilis": "This app is released and ready to use."
+    }
+  },
+  "notfound": {
+    "title": "This page is not in the vault",
+    "desc": "The link may be outdated, or the app was renamed.",
+    "cta": "Browse all apps"
+  }
+}

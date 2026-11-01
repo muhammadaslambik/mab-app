@@ -1,0 +1,665 @@
+# ============================================================================
+# KONFIGURASI SVELTIA CMS — dibuat otomatis oleh: node scripts/gen-cms-config.mjs
+# Jangan edit manual (akan tertimpa). Ubah scripts/gen-cms-config.mjs lalu jalankan ulang.
+# ============================================================================
+backend:
+  name: "github"
+  repo: "muhammadaslambik/mab-app"
+  branch: "main"
+site_url: "https://mab-app.eu.org"
+display_url: "https://mab-app.eu.org"
+media_folder: "apps/web/public/uploads"
+public_folder: "/uploads"
+i18n:
+  structure: "multiple_files"
+  locales: ["en","id","ar","zh","es","fr","ru"]
+  default_locale: "en"
+collections:
+  - name: "apps"
+    label: "Aplikasi"
+    description: "Daftar aplikasi yang tampil di vault. Urutan di sini = urutan di situs (seret untuk mengubah)."
+    files:
+      - name: "registry"
+        label: "Daftar Aplikasi"
+        file: "apps-registry/apps.json"
+        format: "json"
+        fields:
+          - label: "Aplikasi"
+            label_singular: "Aplikasi"
+            name: "apps"
+            widget: "list"
+            summary: "{{fields.name}} · {{fields.status}}"
+            fields:
+              - label: "ID (alamat halaman)"
+                name: "id"
+                widget: "string"
+                pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$","Huruf kecil, angka, dan tanda minus. Contoh: mab-music"]
+                hint: "Jadi alamat /app/ID-aplikasi/. Harus unik dan sebaiknya tidak diubah setelah dipublikasikan."
+              - label: "Nama"
+                name: "name"
+                widget: "string"
+              - label: "Kategori"
+                name: "category"
+                widget: "select"
+                options:
+                  - label: "Aplikasi"
+                    value: "application"
+                  - label: "Game"
+                    value: "game"
+                  - label: "Bisnis"
+                    value: "business"
+                  - label: "Edukasi"
+                    value: "education"
+              - label: "Platform"
+                name: "platform"
+                widget: "select"
+                multiple: true
+                min: 1
+                options:
+                  - label: "Desktop"
+                    value: "desktop"
+                  - label: "Mobile (HP)"
+                    value: "mobile"
+                  - label: "Web"
+                    value: "web"
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                options:
+                  - label: "Riset (tampil: RESEARCH)"
+                    value: "riset"
+                  - label: "Beta (tampil: BETA)"
+                    value: "beta"
+                  - label: "Rilis (tampil: RELEASE)"
+                    value: "rilis"
+              - label: "Deskripsi singkat"
+                name: "description"
+                widget: "text"
+                pattern: ["^[\\s\\S]{1,160}$","Wajib diisi, maksimal 160 karakter"]
+                hint: "Tampil di kartu (maks. 160 karakter)."
+              - label: "Ikon"
+                name: "icon"
+                widget: "select"
+                options:
+                  - "AppWindow"
+                  - "BookOpen"
+                  - "Bot"
+                  - "Box"
+                  - "Brain"
+                  - "Briefcase"
+                  - "Calculator"
+                  - "Camera"
+                  - "Cpu"
+                  - "Database"
+                  - "FlaskConical"
+                  - "Gamepad2"
+                  - "Gauge"
+                  - "Globe"
+                  - "GraduationCap"
+                  - "Heart"
+                  - "Languages"
+                  - "Layers"
+                  - "LayoutGrid"
+                  - "Map"
+                  - "MessageSquare"
+                  - "Monitor"
+                  - "Music"
+                  - "Package"
+                  - "Palette"
+                  - "Puzzle"
+                  - "Rocket"
+                  - "Shield"
+                  - "ShoppingCart"
+                  - "Smartphone"
+                  - "Sparkles"
+                  - "Star"
+                  - "Swords"
+                  - "Terminal"
+                  - "TrendingUp"
+                  - "Trophy"
+                  - "Wallet"
+                  - "Wrench"
+                  - "Zap"
+                hint: "Nama ikon Lucide. Perlu ikon lain? Tambahkan di packages/ui/src/icons.tsx lalu jalankan node scripts/gen-cms-config.mjs."
+              - label: "Tautan aplikasi"
+                name: "link"
+                widget: "string"
+                required: false
+                pattern: ["^$|^https?://","Kosongkan, atau awali dengan https://"]
+                hint: "Kosongkan jika belum publik (halaman detail menampilkan \"Not public yet\")."
+              - label: "Teknologi (tech stack)"
+                name: "tech_stack"
+                widget: "list"
+                required: false
+                hint: "Satu teknologi per baris, mis. React, Rust."
+              - label: "Deskripsi panjang"
+                name: "long_description"
+                widget: "text"
+                required: false
+                hint: "Opsional. Tampil di halaman detail."
+              - label: "Tag"
+                name: "tags"
+                widget: "list"
+                required: false
+                hint: "Opsional. Membantu pencarian."
+              - label: "Unggulan (kartu lebih lebar)"
+                name: "featured"
+                widget: "boolean"
+                required: false
+                default: false
+              - label: "Terakhir diperbarui"
+                name: "updated"
+                widget: "string"
+                required: false
+                pattern: ["^$|^\\d{4}-\\d{2}-\\d{2}$","Format: 2026-10-31"]
+                hint: "Format TAHUN-BULAN-TANGGAL, mis. 2026-10-31."
+  - name: "settings"
+    label: "Pengaturan Situs"
+    files:
+      - name: "site"
+        label: "Info Situs"
+        file: "apps-registry/site.json"
+        format: "json"
+        fields:
+          - label: "Nama situs"
+            name: "name"
+            widget: "string"
+            hint: "Dipakai di judul tab, footer, dan hasil pencarian."
+          - label: "Tagline (judul tab & SEO)"
+            name: "tagline"
+            widget: "string"
+            hint: "Teks besar di hero diatur di \"Teks & Terjemahan → Hero\"."
+          - label: "Deskripsi situs (SEO)"
+            name: "description"
+            widget: "text"
+            hint: "Tampil di Google & media sosial. Idealnya di bawah 160 karakter."
+          - label: "Tautan GitHub"
+            name: "github"
+            widget: "string"
+            pattern: ["^https://","Harus diawali https://"]
+          - label: "URL situs"
+            name: "url"
+            widget: "hidden"
+            default: "https://mab-app.eu.org"
+  - name: "texts"
+    label: "Teks & Terjemahan"
+    description: "Semua teks antarmuka. Kolom English adalah acuan; bahasa lain yang dikosongkan otomatis memakai English."
+    i18n: true
+    files:
+      - name: "ui"
+        label: "Teks situs (semua bahasa)"
+        file: "apps/web/src/i18n/locales/{{locale}}.json"
+        format: "json"
+        i18n: true
+        fields:
+          - label: "Aksesibilitas"
+            name: "a11y"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Skip"
+                name: "skip"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Navigasi & menu"
+            name: "nav"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Vault"
+                name: "vault"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "About"
+                name: "about"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Install"
+                name: "install"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Menu"
+                name: "menu"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Language"
+                name: "language"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Hero (bagian paling atas)"
+            name: "hero"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Badge"
+                name: "badge"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Tagline"
+                name: "tagline"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Desc"
+                name: "desc"
+                widget: "text"
+                required: false
+                i18n: true
+              - label: "Cta"
+                name: "cta"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Explore"
+                    name: "explore"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "How"
+                    name: "how"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Stat"
+                name: "stat"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Apps"
+                    name: "apps"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Research"
+                    name: "research"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Categories"
+                    name: "categories"
+                    widget: "string"
+                    required: false
+                    i18n: true
+          - label: "Bagian \"Why MAB-APP\""
+            name: "bento"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: "text"
+                required: false
+                i18n: true
+              - label: "Research"
+                name: "research"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Desc"
+                    name: "desc"
+                    widget: "text"
+                    required: false
+                    i18n: true
+              - label: "Free"
+                name: "free"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Desc"
+                    name: "desc"
+                    widget: "text"
+                    required: false
+                    i18n: true
+              - label: "Pwa"
+                name: "pwa"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Desc"
+                    name: "desc"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Fast"
+                name: "fast"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Desc"
+                    name: "desc"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Registry"
+                name: "registry"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+          - label: "Koleksi / pencarian aplikasi"
+            name: "vault"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: "text"
+                required: false
+                i18n: true
+              - label: "Search"
+                name: "search"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Placeholder"
+                    name: "placeholder"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Label"
+                    name: "label"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Clear"
+                    name: "clear"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Filter"
+                name: "filter"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Category"
+                    name: "category"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Platform"
+                    name: "platform"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Showing"
+                name: "showing"
+                widget: "string"
+                required: false
+                i18n: true
+                hint: "Pertahankan {n}, {total} apa adanya — nilainya diisi otomatis."
+              - label: "Reset"
+                name: "reset"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Empty"
+                name: "empty"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: "string"
+                    required: false
+                    i18n: true
+                  - label: "Desc"
+                    name: "desc"
+                    widget: "string"
+                    required: false
+                    i18n: true
+              - label: "Status"
+                name: "status"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Riset"
+                    name: "riset"
+                    widget: "string"
+                    required: false
+                    i18n: true
+          - label: "Filter"
+            name: "filter"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "All"
+                name: "all"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Nama kategori"
+            name: "cat"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Application"
+                name: "application"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Game"
+                name: "game"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Business"
+                name: "business"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Education"
+                name: "education"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Nama platform"
+            name: "platform"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Desktop"
+                name: "desktop"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Mobile"
+                name: "mobile"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Web"
+                name: "web"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Kartu aplikasi"
+            name: "card"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Details"
+                name: "details"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Built"
+                name: "built"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Source"
+                name: "source"
+                widget: "string"
+                required: false
+                i18n: true
+          - label: "Halaman detail aplikasi"
+            name: "detail"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "All"
+                name: "all"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Open"
+                name: "open"
+                widget: "string"
+                required: false
+                i18n: true
+                hint: "Pertahankan {name} apa adanya — nilainya diisi otomatis."
+              - label: "Not Public"
+                name: "notPublic"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Back Vault"
+                name: "backVault"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Tech"
+                name: "tech"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Details"
+                name: "details"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Status"
+                name: "status"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Category"
+                name: "category"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Platforms"
+                name: "platforms"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Updated"
+                name: "updated"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "More"
+                name: "more"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Note"
+                name: "note"
+                widget: "object"
+                collapsed: true
+                i18n: true
+                fields:
+                  - label: "Riset"
+                    name: "riset"
+                    widget: "text"
+                    required: false
+                    i18n: true
+                  - label: "Beta"
+                    name: "beta"
+                    widget: "text"
+                    required: false
+                    i18n: true
+                  - label: "Rilis"
+                    name: "rilis"
+                    widget: "string"
+                    required: false
+                    i18n: true
+          - label: "Halaman 404"
+            name: "notfound"
+            widget: "object"
+            collapsed: true
+            i18n: true
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Desc"
+                name: "desc"
+                widget: "string"
+                required: false
+                i18n: true
+              - label: "Cta"
+                name: "cta"
+                widget: "string"
+                required: false
+                i18n: true

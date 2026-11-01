@@ -1,0 +1,115 @@
+{
+  "a11y": {
+    "skip": "Langsung ke konten"
+  },
+  "nav": {
+    "vault": "Koleksi",
+    "about": "Mengapa MAB-APP",
+    "install": "Pasang",
+    "menu": "Buka/tutup menu",
+    "language": "Bahasa"
+  },
+  "hero": {
+    "badge": "Lab terbuka · eksperimen baru setiap bulan",
+    "tagline": "Laboratorium Riset untuk Aplikasi Masa Depan",
+    "desc": "Koleksi aplikasi, game, alat bisnis, dan produk pembelajaran eksperimental yang terus bertambah. Jelajahi yang sedang dibangun, saring berdasarkan platform, dan ikuti setiap ide dari prototipe hingga rilis.",
+    "cta": {
+      "explore": "Jelajahi koleksi",
+      "how": "Cara kerjanya"
+    },
+    "stat": {
+      "apps": "Aplikasi di koleksi",
+      "research": "Sedang diriset",
+      "categories": "Kategori"
+    }
+  },
+  "bento": {
+    "title": "Lab yang siap berkembang",
+    "subtitle": "Ide di sini dimulai dari kasar. Fondasi di bawahnya tidak perlu begitu.",
+    "research": {
+      "title": "Riset dulu, poles kemudian",
+      "desc": "Setiap aplikasi punya status yang jujur, jadi Anda selalu tahu apa yang sedang dilihat."
+    },
+    "free": {
+      "title": "Gratis dijalankan",
+      "desc": "Situs statis di GitHub atau Cloudflare Pages. Tanpa server, tanpa kartu."
+    },
+    "pwa": {
+      "title": "Bisa dipasang",
+      "desc": "Berupa PWA: tambahkan ke layar utama dan buka seperti aplikasi."
+    },
+    "fast": {
+      "title": "Cepat sejak awal",
+      "desc": "HTML statis, JavaScript secukupnya, font dihosting sendiri."
+    },
+    "registry": {
+      "title": "Satu berkas menambah aplikasi"
+    }
+  },
+  "vault": {
+    "title": "Koleksi",
+    "subtitle": "Semua aplikasi di lab. Cari, saring, dan buka untuk melihat detailnya.",
+    "search": {
+      "placeholder": "Cari nama, teknologi, atau tag…",
+      "label": "Cari aplikasi",
+      "clear": "Hapus pencarian"
+    },
+    "filter": {
+      "category": "Saring berdasarkan kategori",
+      "platform": "Platform"
+    },
+    "showing": "Menampilkan {n} dari {total} aplikasi",
+    "reset": "Atur ulang filter",
+    "empty": {
+      "title": "Tidak ada aplikasi yang cocok",
+      "desc": "Coba kata kunci lain atau hapus filter."
+    },
+    "status": {
+      "riset": "Sedang diriset"
+    }
+  },
+  "filter": {
+    "all": "Semua"
+  },
+  "cat": {
+    "application": "Aplikasi",
+    "game": "Game",
+    "business": "Bisnis",
+    "education": "Edukasi"
+  },
+  "platform": {
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "web": "Web"
+  },
+  "card": {
+    "details": "Detail"
+  },
+  "footer": {
+    "built": "Dibuat dengan Astro di atas stack 100% gratis.",
+    "source": "Kode sumber di GitHub"
+  },
+  "detail": {
+    "all": "Semua aplikasi",
+    "open": "Buka {name}",
+    "notPublic": "Belum publik",
+    "backVault": "Kembali ke koleksi",
+    "tech": "Teknologi",
+    "details": "Detail",
+    "status": "Status",
+    "category": "Kategori",
+    "platforms": "Platform",
+    "updated": "Diperbarui",
+    "more": "Lainnya di kategori ini",
+    "note": {
+      "riset": "Aplikasi ini masih tahap riset. Perubahan cepat, eksperimen, dan bagian yang belum rapi adalah hal yang wajar.",
+      "beta": "Aplikasi ini dalam tahap beta. Sudah berjalan, tetapi fitur dan data masih bisa berubah.",
+      "rilis": "Aplikasi ini sudah dirilis dan siap digunakan."
+    }
+  },
+  "notfound": {
+    "title": "Halaman ini tidak ada di koleksi",
+    "desc": "Tautannya mungkin sudah usang, atau aplikasinya berganti nama.",
+    "cta": "Lihat semua aplikasi"
+  }
+}

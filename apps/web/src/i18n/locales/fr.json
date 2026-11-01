@@ -1,0 +1,115 @@
+{
+  "a11y": {
+    "skip": "Aller au contenu"
+  },
+  "nav": {
+    "vault": "Coffre",
+    "about": "Pourquoi MAB-APP",
+    "install": "Installer",
+    "menu": "Afficher ou masquer le menu",
+    "language": "Langue"
+  },
+  "hero": {
+    "badge": "Laboratoire ouvert · de nouvelles expériences chaque mois",
+    "tagline": "Laboratoire de recherche pour les applications de demain",
+    "desc": "Un coffre en pleine croissance d’applications, de jeux, d’outils professionnels et de produits éducatifs expérimentaux. Parcourez ce qui se construit, filtrez par plateforme et suivez chaque idée du prototype jusqu’au lancement.",
+    "cta": {
+      "explore": "Explorer le coffre",
+      "how": "Comment ça marche"
+    },
+    "stat": {
+      "apps": "Apps dans le coffre",
+      "research": "En recherche",
+      "categories": "Catégories"
+    }
+  },
+  "bento": {
+    "title": "Un laboratoire prêt à grandir",
+    "subtitle": "Ici, les idées démarrent brutes. Les fondations, elles, n’ont pas à l’être.",
+    "research": {
+      "title": "La recherche d’abord, le polissage ensuite",
+      "desc": "Chaque app affiche un statut honnête : vous savez toujours ce que vous regardez."
+    },
+    "free": {
+      "title": "Gratuit à faire tourner",
+      "desc": "Site statique sur GitHub ou Cloudflare Pages. Sans serveur, sans carte bancaire."
+    },
+    "pwa": {
+      "title": "Installable",
+      "desc": "C’est une PWA : ajoutez-la à votre écran d’accueil et ouvrez-la comme une app."
+    },
+    "fast": {
+      "title": "Rapide par défaut",
+      "desc": "HTML statique, un minimum de JavaScript et des polices auto-hébergées."
+    },
+    "registry": {
+      "title": "Un fichier suffit pour ajouter une app"
+    }
+  },
+  "vault": {
+    "title": "Le coffre",
+    "subtitle": "Toutes les apps du laboratoire. Recherchez, filtrez et ouvrez-en une pour voir les détails.",
+    "search": {
+      "placeholder": "Rechercher par nom, technologie ou tag…",
+      "label": "Rechercher des apps",
+      "clear": "Effacer la recherche"
+    },
+    "filter": {
+      "category": "Filtrer par catégorie",
+      "platform": "Plateforme"
+    },
+    "showing": "{n} app(s) affichée(s) sur {total}",
+    "reset": "Réinitialiser les filtres",
+    "empty": {
+      "title": "Aucune app ne correspond",
+      "desc": "Essayez un autre mot-clé ou effacez les filtres."
+    },
+    "status": {
+      "riset": "En recherche"
+    }
+  },
+  "filter": {
+    "all": "Tout"
+  },
+  "cat": {
+    "application": "Application",
+    "game": "Jeu",
+    "business": "Affaires",
+    "education": "Éducation"
+  },
+  "platform": {
+    "desktop": "Ordinateur",
+    "mobile": "Mobile",
+    "web": "Web"
+  },
+  "card": {
+    "details": "Détails"
+  },
+  "footer": {
+    "built": "Créé avec Astro sur une stack 100 % gratuite.",
+    "source": "Code source sur GitHub"
+  },
+  "detail": {
+    "all": "Toutes les apps",
+    "open": "Ouvrir {name}",
+    "notPublic": "Pas encore publique",
+    "backVault": "Retour au coffre",
+    "tech": "Technologies",
+    "details": "Détails",
+    "status": "Statut",
+    "category": "Catégorie",
+    "platforms": "Plateformes",
+    "updated": "Mise à jour",
+    "more": "Plus dans cette catégorie",
+    "note": {
+      "riset": "Cette app est en phase de recherche. Attendez-vous à des changements rapides, des expériences et des aspérités.",
+      "beta": "Cette app est en bêta. Elle fonctionne, mais les fonctions et les données peuvent encore changer.",
+      "rilis": "Cette app est lancée et prête à l’emploi."
+    }
+  },
+  "notfound": {
+    "title": "Cette page n’est pas dans le coffre",
+    "desc": "Le lien est peut-être obsolète, ou l’app a changé de nom.",
+    "cta": "Voir toutes les apps"
+  }
+}

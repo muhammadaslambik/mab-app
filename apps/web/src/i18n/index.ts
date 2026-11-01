@@ -1,16 +1,17 @@
 /**
  * Sistem alih bahasa tanpa API & tanpa library.
- * - Kamus ada di ./locales/*.ts (satu berkas per bahasa, dimuat hanya saat dipilih).
+ * - Kamus ada di ./locales/*.json (satu berkas per bahasa) dan bisa diedit lewat CMS (/admin).
  * - Teks HTML statis ditandai data-i18n="kunci"; komponen React memakai useT() (lihat ./react.ts).
- * - Kunci yang belum diterjemahkan otomatis memakai bahasa Inggris.
+ * - Kunci yang kosong / belum diterjemahkan otomatis memakai bahasa Inggris.
  */
-import en from './locales/en';
+import en from './locales/en.json';
 
 export type Dict = Record<string, string>;
 export type Vars = Record<string, string | number>;
 export type TFn = (key: string, vars?: Vars) => string;
 
-/** 6 bahasa resmi PBB + Bahasa Indonesia. Tambah bahasa baru: buat locales/xx.ts, lalu daftarkan di sini. */
+/** 6 bahasa resmi PBB + Bahasa Indonesia. Tambah bahasa baru: buat locales/xx.json, daftarkan di sini,
+ *  lalu jalankan `node scripts/gen-cms-config.mjs` agar CMS ikut mengenalinya. */
 export const LANGS = [
   { code: 'en', native: 'English', dir: 'ltr' },
   { code: 'id', native: 'Bahasa Indonesia', dir: 'ltr' },
@@ -22,19 +23,35 @@ export const LANGS = [
 ] as const;
 export type LangCode = (typeof LANGS)[number]['code'];
 
+/** {hero:{badge:"x"}} → {"hero.badge":"x"}; teks kosong dilewati agar jatuh ke bahasa Inggris */
+function flatten(obj: Record<string, unknown>, prefix = '', out: Dict = {}): Dict {
+  for (const [k, v] of Object.entries(obj)) {
+    const key = prefix ? `${prefix}.${k}` : k;
+    if (typeof v === 'string') {
+      if (v.trim()) out[key] = v;
+    } else if (v && typeof v === 'object') {
+      flatten(v as Record<string, unknown>, key, out);
+    }
+  }
+  return out;
+}
+
+const enDict = flatten(en);
+const load = (p: Promise<{ default: Record<string, unknown> }>) => p.then((m) => ({ default: flatten(m.default) }));
+
 const loaders: Record<LangCode, () => Promise<{ default: Dict }>> = {
-  en: () => Promise.resolve({ default: en }),
-  id: () => import('./locales/id'),
-  ar: () => import('./locales/ar'),
-  zh: () => import('./locales/zh'),
-  es: () => import('./locales/es'),
-  fr: () => import('./locales/fr'),
-  ru: () => import('./locales/ru'),
+  en: () => Promise.resolve({ default: enDict }),
+  id: () => load(import('./locales/id.json')),
+  ar: () => load(import('./locales/ar.json')),
+  zh: () => load(import('./locales/zh.json')),
+  es: () => load(import('./locales/es.json')),
+  fr: () => load(import('./locales/fr.json')),
+  ru: () => load(import('./locales/ru.json')),
 };
 
 const STORAGE_KEY = 'mab-lang';
 let code: LangCode = 'en';
-let dict: Dict = en;
+let dict: Dict = enDict;
 const listeners = new Set<() => void>();
 
 const isLang = (v: string): v is LangCode => Object.prototype.hasOwnProperty.call(loaders, v);
@@ -42,9 +59,9 @@ const fmt = (s: string, vars?: Vars) =>
   vars ? s.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? `{${k}}`)) : s;
 
 /** Terjemahan bahasa aktif (fallback: Inggris) */
-export const t: TFn = (key, vars) => fmt(dict[key] ?? en[key] ?? key, vars);
+export const t: TFn = (key, vars) => fmt(dict[key] ?? enDict[key] ?? key, vars);
 /** Selalu Inggris — dipakai untuk render pertama React agar cocok dengan HTML server */
-export const tEn: TFn = (key, vars) => fmt(en[key] ?? key, vars);
+export const tEn: TFn = (key, vars) => fmt(enDict[key] ?? key, vars);
 
 export const getLang = () => code;
 export const subscribe = (fn: () => void) => {

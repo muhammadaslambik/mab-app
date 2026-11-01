@@ -1,18 +1,30 @@
 {
-  "$schema": "./apps.schema.json",
   "apps": [
     {
       "id": "nexus-notes",
       "name": "Nexus Notes",
       "category": "application",
-      "platform": ["desktop", "web"],
+      "platform": [
+        "desktop",
+        "web",
+        "mobile"
+      ],
       "status": "riset",
       "description": "Local-first knowledge base that links your notes into a searchable graph. (Contoh data — ganti dengan aplikasi Anda)",
       "icon": "Brain",
       "link": "",
-      "tech_stack": ["Tauri", "Rust", "React", "SQLite"],
+      "tech_stack": [
+        "Tauri",
+        "Rust",
+        "React",
+        "SQLite"
+      ],
       "long_description": "Eksperimen riset tentang catatan yang sepenuhnya offline, dengan graph relasi otomatis dan pencarian instan. Fokus saat ini: sinkronisasi tanpa server.",
-      "tags": ["notes", "offline", "graph"],
+      "tags": [
+        "notes",
+        "offline",
+        "graph"
+      ],
       "featured": true,
       "updated": "2026-10-20"
     },
@@ -20,92 +32,156 @@
       "id": "pixel-orbit",
       "name": "Pixel Orbit",
       "category": "game",
-      "platform": ["mobile", "web"],
+      "platform": [
+        "mobile",
+        "web"
+      ],
       "status": "riset",
       "description": "One-thumb arcade game about slingshotting a tiny satellite through asteroid fields.",
       "icon": "Gamepad2",
       "link": "",
-      "tech_stack": ["Godot", "GDScript"],
-      "tags": ["arcade", "casual"],
+      "tech_stack": [
+        "Godot",
+        "GDScript"
+      ],
+      "long_description": "",
+      "tags": [
+        "arcade",
+        "casual"
+      ],
       "updated": "2026-10-12"
     },
     {
       "id": "kasir-lite",
       "name": "Kasir Lite",
       "category": "business",
-      "platform": ["mobile"],
+      "platform": [
+        "mobile"
+      ],
       "status": "beta",
       "description": "Offline-first point-of-sale for small shops with simple daily sales reports.",
       "icon": "ShoppingCart",
       "link": "https://example.com/kasir-lite",
-      "tech_stack": ["Flutter", "SQLite"],
-      "tags": ["pos", "umkm", "offline"],
+      "tech_stack": [
+        "Flutter",
+        "SQLite"
+      ],
+      "long_description": "",
+      "tags": [
+        "pos",
+        "umkm",
+        "offline"
+      ],
       "updated": "2026-10-25"
     },
     {
       "id": "belajar-kilat",
       "name": "Belajar Kilat",
       "category": "education",
-      "platform": ["mobile", "web"],
+      "platform": [
+        "mobile",
+        "web"
+      ],
       "status": "riset",
       "description": "Bite-sized spaced-repetition lessons that adapt to what you forget.",
       "icon": "GraduationCap",
       "link": "",
-      "tech_stack": ["React Native", "TypeScript"],
-      "tags": ["learning", "flashcards"],
+      "tech_stack": [
+        "React Native",
+        "TypeScript"
+      ],
+      "tags": [
+        "learning",
+        "flashcards"
+      ],
       "updated": "2026-09-30"
     },
     {
       "id": "vault-sync",
       "name": "Vault Sync",
       "category": "application",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "status": "beta",
       "description": "Encrypted folder sync between your own devices — no cloud account needed.",
       "icon": "Shield",
       "link": "https://example.com/vault-sync",
-      "tech_stack": ["Electron", "libsodium"],
-      "tags": ["privacy", "sync"],
+      "tech_stack": [
+        "Electron",
+        "libsodium"
+      ],
+      "tags": [
+        "privacy",
+        "sync"
+      ],
       "updated": "2026-10-18"
     },
     {
       "id": "quest-forge",
       "name": "Quest Forge",
       "category": "game",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "status": "riset",
       "description": "Procedural dungeon crawler prototype with a deck-building combat system.",
       "icon": "Swords",
       "link": "",
-      "tech_stack": ["Unity", "C#"],
-      "tags": ["roguelike", "deckbuilder"],
+      "tech_stack": [
+        "Unity",
+        "C#"
+      ],
+      "tags": [
+        "roguelike",
+        "deckbuilder"
+      ],
       "updated": "2026-10-02"
     },
     {
       "id": "invoice-flow",
       "name": "Invoice Flow",
       "category": "business",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "status": "rilis",
       "description": "Create, send and track invoices from a single fast web page.",
       "icon": "Wallet",
       "link": "https://example.com/invoice-flow",
-      "tech_stack": ["Astro", "Cloudflare Workers"],
-      "tags": ["finance", "freelance"],
+      "tech_stack": [
+        "Astro",
+        "Cloudflare Workers"
+      ],
+      "tags": [
+        "finance",
+        "freelance"
+      ],
       "updated": "2026-08-14"
     },
     {
       "id": "lingo-lab",
       "name": "Lingo Lab",
       "category": "education",
-      "platform": ["web", "mobile"],
+      "platform": [
+        "web",
+        "mobile"
+      ],
       "status": "riset",
       "description": "Experimental speaking coach that runs its speech model fully in the browser.",
       "icon": "Languages",
       "link": "",
-      "tech_stack": ["SvelteKit", "WebAssembly"],
-      "tags": ["language", "ai", "wasm"],
+      "tech_stack": [
+        "SvelteKit",
+        "WebAssembly"
+      ],
+      "tags": [
+        "language",
+        "ai",
+        "wasm"
+      ],
       "updated": "2026-10-27"
     }
-  ]
+  ],
+  "$schema": "./apps.schema.json"
 }
