@@ -1,5 +1,5 @@
 /* Service worker minimal: offline shell + cache aset ber-hash. Naikkan VERSION untuk reset cache. */
-const VERSION = 'mab-v3';
+const VERSION = 'mab-v4';
 const CORE = ['/', '/favicon.svg', '/manifest.webmanifest'];
 
 self.addEventListener('install', (e) => {
@@ -22,7 +22,7 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   const url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== location.origin) return;
-  if (url.pathname.startsWith('/admin')) return; // CMS: selalu langsung ke jaringan (konfigurasi tidak boleh basi)
+  if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/mab-')) return; // CMS dan aplikasi lain: langsung ke jaringan
 
   // Halaman: network-first, fallback cache
   if (req.mode === 'navigate') {
