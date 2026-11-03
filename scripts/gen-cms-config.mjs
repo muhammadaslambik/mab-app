@@ -117,7 +117,7 @@ const config = {
                 { label: 'Ikon', name: 'icon', widget: 'select', options: ICONS,
                   hint: 'Nama ikon Lucide. Perlu ikon lain? Tambahkan di packages/ui/src/icons.tsx lalu jalankan node scripts/gen-cms-config.mjs.' },
                 { label: 'Tautan aplikasi', name: 'link', widget: 'string', required: false,
-                  pattern: ['^$|^https?://', 'Kosongkan, atau awali dengan https://'],
+                  pattern: ['^$|^(https?://|/[^/])', 'Kosongkan, awali dengan https://, atau / untuk aplikasi internal (mis. /mab-music/)'],
                   hint: 'Kosongkan jika belum publik (halaman detail menampilkan "Not public yet").' },
                 { label: 'Teknologi (tech stack)', name: 'tech_stack', widget: 'list', required: false, hint: 'Satu teknologi per baris, mis. React, Rust.' },
                 { label: 'Deskripsi panjang', name: 'long_description', widget: 'text', required: false, hint: 'Opsional. Tampil di halaman detail.' },

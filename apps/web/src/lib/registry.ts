@@ -29,7 +29,7 @@ function normalize(item: any, i: number, seen: Set<string>): AppEntry {
 
   if (!item.description) fail(i, id, 'description wajib diisi');
   const link = String(item.link ?? '');
-  if (link && !/^https?:\/\//.test(link)) fail(i, id, 'link harus diawali http(s):// atau dikosongkan');
+  if (link && !/^(https?:\/\/|\/(?!\/))/.test(link)) fail(i, id, 'link harus diawali http(s)://, atau / untuk aplikasi internal (mis. /mab-music/), atau dikosongkan');
 
   return {
     id,

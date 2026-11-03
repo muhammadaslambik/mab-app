@@ -1,21 +1,18 @@
-# Auto deploy MAB-APP.
-#  - GitHub Pages : aktif otomatis (Settings → Pages → Source: "GitHub Actions")
-#  - Cloudflare   : opsional. Buat Repository variable DEPLOY_CLOUDFLARE=true
-#                   + secrets CLOUDFLARE_API_TOKEN & CLOUDFLARE_ACCOUNT_ID
-name: Deploy MAB-APP
+# Build check: memastikan proyek bisa dibangun di setiap push dan pull request.
+# Deploy dilakukan oleh Cloudflare Pages (proyek "mab-app"), bukan oleh workflow ini.
+name: Build check
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -30,35 +27,3 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: apps/web/dist
-
-  deploy-github-pages:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-
-  deploy-cloudflare:
-    if: ${{ vars.DEPLOY_CLOUDFLARE == 'true' }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-      - run: pnpm install
-      - run: pnpm build
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/web/dist --project-name=mab-app

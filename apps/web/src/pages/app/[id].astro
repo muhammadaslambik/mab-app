@@ -59,7 +59,7 @@ const notes: Record<string, string> = {
 
     <div class="mt-8 flex flex-wrap items-center gap-3" data-reveal>
       {app.link
-        ? <a href={app.link} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        ? <a href={app.link} {...(app.link.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' })} class="btn btn-primary">
             <span data-i18n="detail.open" data-i18n-vars={JSON.stringify({ name: app.name })}>Open {app.name}</span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </a>

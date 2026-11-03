@@ -125,7 +125,9 @@ collections:
                 name: "link"
                 widget: "string"
                 required: false
-                pattern: ["^$|^https?://","Kosongkan, atau awali dengan https://"]
+                pattern:
+                  - "^$|^(https?://|/[^/])"
+                  - "Kosongkan, awali dengan https://, atau / untuk aplikasi internal (mis. /mab-music/)"
                 hint: "Kosongkan jika belum publik (halaman detail menampilkan \"Not public yet\")."
               - label: "Teknologi (tech stack)"
                 name: "tech_stack"
