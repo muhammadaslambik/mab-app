@@ -90,6 +90,7 @@
         "React Native",
         "TypeScript"
       ],
+      "long_description": "",
       "tags": [
         "learning",
         "flashcards"
@@ -111,6 +112,7 @@
         "Electron",
         "libsodium"
       ],
+      "long_description": "",
       "tags": [
         "privacy",
         "sync"
@@ -132,6 +134,7 @@
         "Unity",
         "C#"
       ],
+      "long_description": "",
       "tags": [
         "roguelike",
         "deckbuilder"
@@ -153,6 +156,7 @@
         "Astro",
         "Cloudflare Workers"
       ],
+      "long_description": "",
       "tags": [
         "finance",
         "freelance"
@@ -175,12 +179,36 @@
         "SvelteKit",
         "WebAssembly"
       ],
+      "long_description": "",
       "tags": [
         "language",
         "ai",
         "wasm"
       ],
       "updated": "2026-10-27"
+    },
+    {
+      "id": "mab-music",
+      "name": "MAB-Music",
+      "category": "application",
+      "platform": [
+        "web"
+      ],
+      "status": "riset",
+      "description": "Buat lagu dari teks dan lirik dengan AI, ubah format audio, dan edit video langsung di browser.",
+      "icon": "Music",
+      "link": "/mab-music/",
+      "tech_stack": [
+        "HTML",
+        "JavaScript",
+        "Tailwind CSS",
+        "Python",
+        "Google Colab"
+      ],
+      "long_description": "",
+      "tags": [],
+      "featured": false,
+      "updated": "2026-11-06"
     }
   ],
   "$schema": "./apps.schema.json"
