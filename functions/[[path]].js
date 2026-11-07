@@ -1,5 +1,6 @@
 const APPS = {
   'mab-music': 'https://mab-music.pages.dev',
+  'mab-pdf': 'https://mab-pdf.pages.dev',
 };
 
 export async function onRequest(context) {
