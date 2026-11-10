@@ -209,6 +209,25 @@
       "tags": [],
       "featured": false,
       "updated": "2026-11-06"
+    },
+    {
+      "id": "mab-pdf",
+      "name": "MAB-PDF",
+      "category": "application",
+      "platform": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
+      "status": "riset",
+      "description": "Alat PDF: dapat digunakan untuk menggabungkan, mengkompres, mengubah, menanda tangani, dan mengunci dan membuka kunci dokumen.",
+      "icon": "Layers",
+      "link": "/mab-pdf/",
+      "tech_stack": [],
+      "long_description": "",
+      "tags": [],
+      "featured": false,
+      "updated": ""
     }
   ],
   "$schema": "./apps.schema.json"
